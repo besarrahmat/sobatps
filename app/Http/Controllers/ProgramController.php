@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Programs;
+use App\Models\Usulan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -161,5 +162,18 @@ class ProgramController extends Controller
 		$program->save();
 
 		return back();
+	}
+
+	/**
+	 * Display a listing of the specified resource.
+	 */
+	public function list(Programs $program): View
+	{
+		$list = Usulan::join('kups', 'usulan.kups_id', '=', 'kups.id')
+			->where('program_id', $program->id)
+			->orderBy('usulan.id')
+			->get(['usulan.*', 'kups.kups_name']);
+
+		return view('pages.auth.list-pendaftar')->with('program', $program)->with('list', $list);
 	}
 }

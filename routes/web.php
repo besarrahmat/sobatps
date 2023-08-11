@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
 
 	Route::patch('program/{program}/open-close', [ProgramController::class, 'open_close'])->name('program.status');
+	Route::get('program/{program}/pendaftar', [ProgramController::class, 'list'])->name('program.list');
 
 	Route::get('lembaga-ps/kode/{kode}', function ($kode) {
 		if (strlen($kode) == 4) {

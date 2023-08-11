@@ -40,6 +40,13 @@
                                             </button>
                                         </form>
                                     </li>
+                                    <li class="list-inline-item">
+                                        <a class="btn btn-secondary btn-md rounded-0" type="button"
+                                            href="{{ url('program/' . $program['id'] . '/pendaftar') }}">
+                                            Lihat Pendaftar
+                                            <i class="bx bx-right-arrow-alt"></i>
+                                        </a>
+                                    </li>
                                 </ul>
 
                                 <ul>
