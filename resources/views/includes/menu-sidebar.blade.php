@@ -65,6 +65,13 @@
                 <span>Draft Penerima Hibah</span>
             </a>
         </li><!-- End Draft Penerima Hibah Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href={{ url('usulan') }}>
+                <i class="bx bx-folder"></i>
+                <span>Usulan Bantuan</span>
+            </a>
+        </li><!-- End Usulan Bantuan Page Nav -->
     </ul>
 
 </aside>

@@ -10,7 +10,7 @@ use App\Http\Controllers\PSController;
 use App\Http\Controllers\SKController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\UsulanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 		'lembaga-kups' => KUPSController::class,
 		'list-sk' => SKController::class,
 		'draft-hibah' => HibahController::class,
+		'usulan' => UsulanController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
@@ -67,6 +68,8 @@ Route::middleware('auth')->group(function () {
 	Route::post('lembaga-kups/user', [KUPSController::class, 'add_kups_user'])->name('lembaga-kups.store-user-kups');
 
 	Route::patch('draft-hibah/{draft_hibah}/approve', [HibahController::class, 'approve'])->name('draft-hibah.approve');
+
+	Route::patch('usulan/{usulan}/open-close', [UsulanController::class, 'open_close'])->name('usulan.status');
 
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
