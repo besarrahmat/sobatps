@@ -4,8 +4,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MasterAdditionalsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\PSController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,11 +31,29 @@ Route::middleware('auth')->group(function () {
 		'user' => UserController::class,
 		'program' => ProgramController::class,
 		'extra' => MasterAdditionalsController::class,
+		'lembaga-ps' => PSController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
 
 	Route::patch('program/{program}/open-close', [ProgramController::class, 'open_close'])->name('program.status');
+
+	Route::get('lembaga-ps/kode/{kode}', function ($kode) {
+		if (strlen($kode) == 4) {
+			$query = DB::select("SELECT * FROM region WHERE LENGTH(kode) = 6 AND kode LIKE CONCAT($kode, '%')");
+		} else {
+			$query = DB::select("SELECT * FROM region WHERE LENGTH(kode) = 10 AND kode LIKE CONCAT($kode, '%')");
+		}
+		return response()->json($query);
+	})->name('lembaga-ps.create-kode');
+	Route::get('lembaga-ps/{lembaga_p}/kode/{kode}', function ($id, $kode) {
+		if (strlen($kode) == 4) {
+			$query = DB::select("SELECT * FROM region WHERE LENGTH(kode) = 6 AND kode LIKE CONCAT($kode, '%')");
+		} else {
+			$query = DB::select("SELECT * FROM region WHERE LENGTH(kode) = 10 AND kode LIKE CONCAT($kode, '%')");
+		}
+		return response()->json($query);
+	})->name('lembaga-ps.edit-kode');
 
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

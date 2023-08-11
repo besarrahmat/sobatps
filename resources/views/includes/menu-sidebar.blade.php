@@ -21,6 +21,13 @@
                 <span>Master Jenis Asistensi</span>
             </a>
         </li><!-- End Master Jenis Asistensi Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href={{ url('lembaga-ps') }}>
+                <i class="bx bxs-book-alt"></i>
+                <span>Lembaga PS</span>
+            </a>
+        </li><!-- End Lembaga PS Page Nav -->
     </ul>
 
 </aside>
