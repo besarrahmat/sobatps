@@ -6,6 +6,7 @@ use App\Http\Controllers\MasterAdditionalsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PSController;
+use App\Http\Controllers\SKController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
 		'extra' => MasterAdditionalsController::class,
 		'lembaga-ps' => PSController::class,
 		'lembaga-kups' => KUPSController::class,
+		'list-sk' => SKController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
