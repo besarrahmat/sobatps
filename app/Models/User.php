@@ -29,6 +29,7 @@ class User extends Authenticatable
 		'name',
 		'email',
 		'password',
+		'roles_id',
 	];
 
 	/**
@@ -55,4 +56,12 @@ class User extends Authenticatable
 	 * @var bool
 	 */
 	public $timestamps = false;
+
+	/**
+	 * Get the roles that owns the user.
+	 */
+	public function roles(): BelongsTo
+	{
+		return $this->belongsTo(Roles::class);
+	}
 }
