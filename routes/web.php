@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
 		return response()->json($query);
 	})->name('lembaga-ps.edit-kode');
 
+	Route::get('lembaga-kups/{lembaga_kup}/pendampingan', [KUPSController::class, 'kups_pendamping'])->name('lembaga-kups.create-pendamping-kups');
+	Route::post('lembaga-kups/pendampingan', [KUPSController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');
+
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

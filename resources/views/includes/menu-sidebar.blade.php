@@ -34,6 +34,14 @@
                 <i class="bx bxs-book-bookmark"></i>
                 <span>Lembaga KUPS</span>
             </a>
+            <ul id="kups-nav" class="nav-content">
+                <li>
+                    <a href="{{ url('lembaga-kups/' . Auth::user()->id . '/pendampingan') }}">
+                        <i class="bi bi-circle"></i>
+                        <span>Tambah Pendampingan KUPS</span>
+                    </a>
+                </li>
+            </ul>
         </li><!-- End Lembaga KUPS Page Nav -->
     </ul>
 

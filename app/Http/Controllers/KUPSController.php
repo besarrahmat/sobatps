@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\LembagaKUPS;
 use App\Models\LembagaPS;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class KUPSController extends Controller
@@ -66,6 +68,17 @@ class KUPSController extends Controller
 			'kups_contact' => $request->kontak_kups ?? 'xxx',
 			'ps_id' => $request->lembaga_ps,
 		]);
+
+		if (Auth::user()->roles_id == 2) {
+			$kups_id = $new_kups_id->id;
+			$user_id = Auth::user()->id;
+
+			DB::table('kups_pendamping')
+				->insert([
+					'user_id' => $user_id,
+					'kups_id' => $kups_id,
+				]);
+		}
 
 		return redirect('lembaga-kups');
 	}
@@ -134,5 +147,64 @@ class KUPSController extends Controller
 		$lembaga_kup->delete();
 
 		return redirect('lembaga-kups');
+	}
+
+	/**
+	 * Show the form for choosing some resource.
+	 */
+	public function kups_pendamping(): View
+	{
+		$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
+			->leftJoin('kups_pendamping', 'kups_pendamping.kups_id', '=', 'kups.id')
+			->where('kups_pendamping.kups_id', '=', null)
+			->orderBy('kups.id')
+			->get(['kups.id', 'kups.kups_name', 'ps.ps_name']);
+
+		$pendamping = User::join('roles', 'users.roles_id', '=', 'roles.id')
+			->leftJoin('kups_pendamping', 'kups_pendamping.user_id', '=', 'users.id')
+			->where('roles.role', '=', 'Pendamping')
+			->distinct()
+			->get(['users.id', 'users.name']);
+
+		$kups_pendamping = $pendamping;
+		$index = 0;
+
+		foreach ($pendamping as $user) {
+			$kups = LembagaKUPS::join('kups_pendamping', 'kups_pendamping.kups_id', '=', 'kups.id')
+				->join('ps', 'kups.ps_id', '=', 'ps.id')
+				->where('kups_pendamping.user_id', $user->id)
+				->orderBy('kups.id')
+				->get(['kups.kups_name', 'ps.ps_name']);
+
+			$kups_pendamping[$index]->kups = $kups;
+			$index++;
+		}
+
+		$data = array(
+			'kups' => $kups_list,
+			'pendamping' => $pendamping,
+			'list' => $kups_pendamping,
+		);
+
+		return view('pages.lembaga.add-pendamping-kups')->with($data);
+	}
+
+	/**
+	 * Store a choosed resource in storage.
+	 */
+	public function add_kups_pendamping(Request $request): RedirectResponse
+	{
+		$request->validate([
+			'lembaga_kups' => ['required', 'integer', 'not_in:0'],
+			'pendamping' => ['required', 'integer', 'not_in:0'],
+		]);
+
+		DB::table('kups_pendamping')
+			->insert([
+				'user_id' => $request->pendamping,
+				'kups_id' => $request->lembaga_kups,
+			]);
+
+		return redirect('lembaga-kups/' . Auth::user()->id . '/pendampingan');
 	}
 }
