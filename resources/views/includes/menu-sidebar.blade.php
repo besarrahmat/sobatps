@@ -51,6 +51,13 @@
                 </li>
             </ul>
         </li><!-- End Lembaga KUPS Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href={{ url('list-sk') }}>
+                <i class="bx bxs-notepad"></i>
+                <span>SK Penerima Bantuan</span>
+            </a>
+        </li><!-- End SK Penerima Bantuan Page Nav -->
     </ul>
 
 </aside>
