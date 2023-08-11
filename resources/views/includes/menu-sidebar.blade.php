@@ -41,6 +41,12 @@
                         <span>Tambah Pendampingan KUPS</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('lembaga-kups/' . Auth::user()->id . '/user') }}">
+                        <i class="bi bi-circle"></i>
+                        <span>Tambah User KUPS</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- End Lembaga KUPS Page Nav -->
     </ul>

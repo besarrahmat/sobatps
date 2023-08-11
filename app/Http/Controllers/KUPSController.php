@@ -207,4 +207,67 @@ class KUPSController extends Controller
 
 		return redirect('lembaga-kups/' . Auth::user()->id . '/pendampingan');
 	}
+
+	/**
+	 * Show the form for choosing a resource.
+	 */
+	public function kups_user(): View
+	{
+		$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
+			->leftJoin('kups_user', 'kups_user.kups_id', '=', 'kups.id')
+			->where('kups_user.kups_id', '=', null)
+			->orderBy('kups.id')
+			->get(['kups.id', 'kups.kups_name', 'ps.ps_name']);
+
+		$users = User::join('roles', 'users.roles_id', '=', 'roles.id')
+			->leftJoin('kups_user', 'kups_user.user_id', '=', 'users.id')
+			->where('roles.role', '=', 'User')
+			->where('kups_user.kups_id', '=', null)
+			->get(['users.id', 'users.name']);
+
+		$kups_user = User::join('roles', 'users.roles_id', '=', 'roles.id')
+			->leftJoin('kups_user', 'kups_user.user_id', '=', 'users.id')
+			->where('roles.role', '=', 'User')
+			->get(['users.id', 'users.name']);
+
+		$index = 0;
+
+		foreach ($kups_user as $user) {
+			$kups =	LembagaKUPS::join('kups_user', 'kups_user.kups_id', '=', 'kups.id')
+				->join('ps', 'kups.ps_id', '=', 'ps.id')
+				->where('kups_user.user_id', $user->id)
+				->orderBy('kups.id')
+				->get(['kups.kups_name', 'ps.ps_name']);
+
+			$kups_user[$index]->kups = $kups;
+			$index++;
+		}
+
+		$data = array(
+			'kups' => $kups_list,
+			'user' => $users,
+			'list' => $kups_user,
+		);
+
+		return view('pages.lembaga.add-user-kups')->with($data);
+	}
+
+	/**
+	 * Store a specific resource in storage.
+	 */
+	public function add_kups_user(Request $request)
+	{
+		$request->validate([
+			'lembaga_kups' => ['required', 'integer', 'not_in:0'],
+			'user' => ['required', 'integer', 'not_in:0'],
+		]);
+
+		DB::table('kups_user')
+			->insert([
+				'user_id' => $request->user,
+				'kups_id' => $request->lembaga_kups,
+			]);
+
+		return redirect('lembaga-kups/' . Auth::user()->id . '/user');
+	}
 }
