@@ -11,6 +11,7 @@ use App\Http\Controllers\SKController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsulanController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
