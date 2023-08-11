@@ -58,6 +58,13 @@
                 <span>SK Penerima Bantuan</span>
             </a>
         </li><!-- End SK Penerima Bantuan Page Nav -->
+
+        <li class="nav-item" @if (Auth::user()->roles->code != 'admin' && Auth::user()->roles->code != 'helper') style="display:none" @endif>
+            <a class="nav-link collapsed" href={{ url('draft-hibah') }}>
+                <i class="bx bx-note"></i>
+                <span>Draft Penerima Hibah</span>
+            </a>
+        </li><!-- End Draft Penerima Hibah Page Nav -->
     </ul>
 
 </aside>

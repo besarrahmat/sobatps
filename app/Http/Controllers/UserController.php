@@ -8,6 +8,7 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
@@ -91,6 +92,10 @@ class UserController extends Controller
 			'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
 			'roles' => ['required', 'integer'],
 		]);
+
+		DB::table('hibah')
+			->where('edited_name', $user->name)
+			->update(['edited_name' => $request->name]);
 
 		$user->update([
 			'name' => $request->name,

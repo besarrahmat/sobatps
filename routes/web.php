@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HibahController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KUPSController;
 use App\Http\Controllers\MasterAdditionalsController;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
 		'lembaga-ps' => PSController::class,
 		'lembaga-kups' => KUPSController::class,
 		'list-sk' => SKController::class,
+		'draft-hibah' => HibahController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
@@ -63,6 +65,8 @@ Route::middleware('auth')->group(function () {
 	Route::post('lembaga-kups/pendampingan', [KUPSController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');
 	Route::get('lembaga-kups/{lembaga_kup}/user', [KUPSController::class, 'kups_user'])->name('lembaga-kups.create-user-kups');
 	Route::post('lembaga-kups/user', [KUPSController::class, 'add_kups_user'])->name('lembaga-kups.store-user-kups');
+
+	Route::patch('draft-hibah/{draft_hibah}/approve', [HibahController::class, 'approve'])->name('draft-hibah.approve');
 
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
