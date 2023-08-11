@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Programs;
+use App\Models\RAB;
 use App\Models\Usulan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -156,6 +157,15 @@ class UsulanController extends Controller
 	public function show(Usulan $usulan): View
 	{
 		$usulan->proposal_date = date('d-m-Y', strtotime($usulan->proposal_date));
+
+		$rab = RAB::where('usulan_id', $usulan->id)
+			->get();
+
+		$rab_total = RAB::where('usulan_id', $usulan->id)
+			->sum('total');
+
+		$usulan['rab'] = $rab;
+		$usulan['rab_total'] = $rab_total;
 
 		return view('pages.usulan.detail-usulan')->with('usulan', $usulan);
 	}
