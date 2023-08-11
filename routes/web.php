@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KUPSController;
 use App\Http\Controllers\MasterAdditionalsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
 		'program' => ProgramController::class,
 		'extra' => MasterAdditionalsController::class,
 		'lembaga-ps' => PSController::class,
+		'lembaga-kups' => KUPSController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');

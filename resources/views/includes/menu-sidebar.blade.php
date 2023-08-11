@@ -28,6 +28,13 @@
                 <span>Lembaga PS</span>
             </a>
         </li><!-- End Lembaga PS Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href={{ url('lembaga-kups') }}>
+                <i class="bx bxs-book-bookmark"></i>
+                <span>Lembaga KUPS</span>
+            </a>
+        </li><!-- End Lembaga KUPS Page Nav -->
     </ul>
 
 </aside>
