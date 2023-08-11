@@ -139,6 +139,82 @@
                                 </div>
                             </div>
 
+                            @if ($usulan['status'] == 1)
+                                <div class="card-rab mb-0">
+                                    <div class="card-header-rab">
+                                        <h3 class="card-title-rab">Rincian Anggaran dan Biaya Kegiatan</h3>
+                                    </div>
+
+                                    <div class="card-body-rab">
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col no">#</th>
+                                                    <th scope="col name" style="width: 45%">Barang</th>
+                                                    <th scope="col amount">Banyak</th>
+                                                    <th scope="col unit">Satuan</th>
+                                                    <th scope="col price">Harga</th>
+                                                    <th scope="col total">Jumlah</th>
+                                                    <th scope="col other" style="width: 10%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i = 1; ?>
+                                                @foreach ($usulan['rab'] as $rab)
+                                                    <tr data-key="0">
+                                                        <td scope="row">
+                                                            <?php
+                                                            echo $i;
+                                                            $i++;
+                                                            ?>
+                                                        </td>
+                                                        <td>{{ $rab['goods'] }}</td>
+                                                        <td>{{ $rab['amount'] }}</td>
+                                                        <td>{{ $rab['unit'] }}</td>
+                                                        <td>{{ $rab['price'] }}</td>
+                                                        <td>{{ $rab['total'] }}</td>
+                                                        <td>
+                                                            <ul class="list-inline m-0">
+                                                                @if (Auth::user()->roles->code != 'admin')
+                                                                    <li class="list-inline-item">
+                                                                        <a class="btn btn-success btn-md rounded-0"
+                                                                            type="button" title="Edit"
+                                                                            href="{{ url('rab/' . $rab['id'] . '/edit') }}">
+                                                                            <i class="bx bx-edit"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="list-inline-item">
+                                                                        <form method="POST"
+                                                                            action="{{ url('rab/' . $rab['id']) }}">
+                                                                            @csrf
+                                                                            @method('DELETE')
+
+                                                                            <button
+                                                                                class="btn btn-danger btn-md rounded-0 show_confirm_rab"
+                                                                                type="submit" title="Hapus">
+                                                                                <i class="bx bx-trash"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </li>
+                                                                @endif
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @if (Auth::user()->roles->code != 'admin')
+                                            <div class="d-flex justify-content-center">
+                                                <a class="btn-add"
+                                                    href="{{ url('rab/create?usulan_id=' . $usulan['id']) }}">
+                                                    Tambah Anggaran
+                                                </a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
 
@@ -188,5 +264,11 @@
                 });
             }
         }
+
+        $('.show_confirm_rab').click(function(e) {
+            if (!confirm('Apakah Anda yakin akan menghapus anggaran ini?')) {
+                e.preventDefault();
+            }
+        });
     </script>
 @stop

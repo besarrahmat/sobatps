@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterAdditionalsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PSController;
+use App\Http\Controllers\RABController;
 use App\Http\Controllers\SKController;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\UserController;
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
 		'list-sk' => SKController::class,
 		'draft-hibah' => HibahController::class,
 		'usulan' => UsulanController::class,
+		'rab' => RABController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
