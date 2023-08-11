@@ -14,6 +14,13 @@
                 <span>Program</span>
             </a>
         </li><!-- End Program Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href={{ url('extra') }}>
+                <i class="bx bxs-server"></i>
+                <span>Master Jenis Asistensi</span>
+            </a>
+        </li><!-- End Master Jenis Asistensi Page Nav -->
     </ul>
 
 </aside>
