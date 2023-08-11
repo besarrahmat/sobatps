@@ -147,6 +147,10 @@ class KUPSController extends Controller
 		$request->nama_kups = strtoupper($request->nama_kups);
 		$request->ketua_kups = ($request->ketua_kups === null) ? 'xxx' : strtoupper($request->ketua_kups);
 
+		DB::table('hibah')
+			->where('deleted_kups', $lembaga_kup->kups_name)
+			->update(['deleted_kups' => $request->nama_kups]);
+
 		$lembaga_kup->update([
 			'kups_name' => $request->nama_kups,
 			'kups_sk_num' => $request->no_sk_kups ?? 'xxx',
