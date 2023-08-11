@@ -8,6 +8,7 @@ use App\Models\Types;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -18,7 +19,30 @@ class PSController extends Controller
 	 */
 	public function index(): View
 	{
-		$ps_list = LembagaPS::all();
+		switch (Auth::user()->roles_id) {
+			case 2:
+				$ps_list = DB::table('kups_pendamping')
+					->join('kups', 'kups_pendamping.kups_id', '=', 'kups.id')
+					->join('ps', 'kups.ps_id', '=', 'ps.id')
+					->where('kups_pendamping.user_id', '=', Auth::user()->id)
+					->orderBy('ps.id')
+					->distinct()
+					->get(['ps.*']);
+				break;
+
+			case 3:
+				$ps_list = DB::table('kups_user')
+					->join('kups', 'kups_user.kups_id', '=', 'kups.id')
+					->join('ps', 'kups.ps_id', '=', 'ps.id')
+					->where('kups_user.user_id', '=', Auth::user()->id)
+					->orderBy('ps.id')
+					->get(['ps.*']);
+				break;
+
+			default:
+				$ps_list = LembagaPS::all();
+				break;
+		}
 
 		$data = array(
 			'ps_list' => $ps_list,

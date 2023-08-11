@@ -18,9 +18,31 @@ class KUPSController extends Controller
 	 */
 	public function index(): View
 	{
-		$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
-			->orderBy('kups.id')
-			->get(['kups.*', 'ps.ps_name']);
+		switch (Auth::user()->roles_id) {
+			case 2:
+				$kups_list = DB::table('kups_pendamping')
+					->join('kups', 'kups_pendamping.kups_id', '=', 'kups.id')
+					->join('ps', 'kups.ps_id', '=', 'ps.id')
+					->where('kups_pendamping.user_id', '=', Auth::user()->id)
+					->orderBy('kups.id')
+					->get(['kups.*', 'ps.ps_name']);
+				break;
+
+			case 3:
+				$kups_list = DB::table('kups_user')
+					->join('kups', 'kups_user.kups_id', '=', 'kups.id')
+					->join('ps', 'kups.ps_id', '=', 'ps.id')
+					->where('kups_user.user_id', '=', Auth::user()->id)
+					->orderBy('kups.id')
+					->get(['kups.*', 'ps.ps_name']);
+				break;
+
+			default:
+				$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
+					->orderBy('kups.id')
+					->get(['kups.*', 'ps.ps_name']);
+				break;
+		}
 
 		$data = array(
 			'kups_list' => $kups_list,
