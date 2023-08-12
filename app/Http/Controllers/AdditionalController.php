@@ -66,11 +66,10 @@ class AdditionalController extends Controller
 			'file_laporan' => ['required', 'nullable', 'mimes:pdf'],
 		]);
 
-		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
-
 		if (!$request->hasFile('file_laporan')) {
 			$request->file_laporan = null;
 		} else {
+			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$file = date('U') . '-' . $request->file_laporan->getClientOriginalName();
 
 			$request->file_laporan = $request->file_laporan->storeAs($path, $file);
@@ -152,13 +151,12 @@ class AdditionalController extends Controller
 			'deskripsi' => $request->deskripsi ?? '-',
 		]);
 
-		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
-
 		if ($request->hasFile('file_laporan')) {
 			if (isset($kelengkapan->file) && Storage::exists($kelengkapan->file)) {
 				Storage::delete($kelengkapan->file);
 			}
 
+			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$file = date('U') . '-' . $request->file_laporan->getClientOriginalName();
 
 			$request->file_laporan = $request->file_laporan->storeAs($path, $file);

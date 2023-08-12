@@ -131,7 +131,6 @@ class UsulanController extends Controller
 			$request->proposal = null;
 		} else {
 			$path = 'proposal/' . $request->program . '-' . $request->lembaga_kups . '/' . strtolower($request->nama_pengusul);
-
 			$file = date('U') . '-' . $request->proposal->getClientOriginalName();
 
 			$request->proposal = $request->proposal->storeAs($path, $file);
@@ -268,7 +267,6 @@ class UsulanController extends Controller
 			}
 
 			$path = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
-
 			$file = date('U') . '-' . $request->proposal->getClientOriginalName();
 
 			$request->proposal = $request->proposal->storeAs($path, $file);

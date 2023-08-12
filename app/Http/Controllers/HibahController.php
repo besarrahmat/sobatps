@@ -112,7 +112,6 @@ class HibahController extends Controller
 		}
 
 		$path = 'hibah/' . $request->kups_pendamping;
-
 		$file = date('U') . '-' . $request->file_sk->getClientOriginalName();
 
 		$request->file_sk = $request->file_sk->storeAs($path, $file);

@@ -42,11 +42,10 @@ class ProgressController extends Controller
 			'dokumentasi' => ['required', 'mimes:jpeg,bmp,png,gif,svg,pdf'],
 		]);
 
-		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
-
 		if (!$request->hasFile('dokumentasi')) {
 			$request->dokumentasi = null;
 		} else {
+			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$file = now()->format('U') . '-' . $request->dokumentasi->getClientOriginalName();
 
 			$request->dokumentasi = $request->dokumentasi->storeAs($path, $file);
@@ -97,13 +96,12 @@ class ProgressController extends Controller
 			'activity' => $request->aktivitas,
 		]);
 
-		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
-
 		if ($request->hasFile('proposal')) {
 			if (isset($progress->documentation) && Storage::exists($progress->documentation)) {
 				Storage::delete($progress->documentation);
 			}
 
+			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$file = date('U') . '-' . $request->dokumentasi->getClientOriginalName();
 
 			$request->dokumentasi = $request->dokumentasi->storeAs($path, $file);
