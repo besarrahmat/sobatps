@@ -218,6 +218,129 @@
                         </div>
                     </div>
 
+                    @if ($usulan['status'] == 1)
+                        <div class="card">
+                            <div class="card-body pb-0">
+
+                                <div class="card-additional-title mb-4">
+                                    <h2>Kelengkapan Usulan</h2>
+                                    <p>Berikut ini adalah kelengkapan usulan bantuan perhutanan sosial anda</p>
+                                </div>
+
+                                @if (Auth::user()->roles->code != 'admin')
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <a class="btn btn-primary w-100 py-3"
+                                            href="{{ url('kelengkapan/create?usulan_id=' . $usulan['id']) }}">
+                                            Tambah Kelengkapan
+                                        </a>
+                                    </div>
+                                @endif
+
+                                <div class="row">
+                                    <div class="col-lg-12 align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+
+                                        @foreach ($usulan['extra_list'] as $extra)
+                                            <div class="card-additional">
+                                                <div class="card-header-additional"
+                                                    @if ($extra['is_file_exist']) @if ($extra['approval'] == 1)
+																								style="background-color: #4ad469"
+																								@elseif ($extra['approval'] == 0)
+																								style="background-color: #f9c105" @endif
+                                                    @endif>
+                                                    <h3 class="card-title-additional">{{ $extra['jenis'] }}</h3>
+                                                </div>
+
+                                                <div class="card-body-additional">
+                                                    {!! $extra['deskripsi'] !!}
+                                                </div>
+
+                                                <div class="card-footer-additional row g-3">
+                                                    <div class="col-6">
+                                                        <div class="identitas mb-3 d-flex align-items-center">
+                                                            <img src="{{ asset('assets/img/profile-img.jpg') }}"
+                                                                alt="Profile" class="rounded-circle ">
+                                                            <span class="d-md-block ps-2 username">Pengusul</span>
+                                                            &nbsp;
+                                                            {{ $extra['tanggal'] }}
+                                                        </div>
+
+                                                        <div class="catatan mt-2 mb-2">
+                                                            <b>Catatan Pengusul</b>
+                                                            <br>
+                                                            {{ $extra['catatan'] }}
+                                                        </div>
+
+                                                        @if (!$extra['is_file_exist'])
+                                                            Belum unggah file
+                                                        @else
+                                                            <div class="row g-3">
+                                                                @foreach ($extra['file_list'] as $file)
+                                                                    <div class="col-6">
+                                                                        <div class="link-file">
+                                                                            <a href="{{ asset('storage/' . $file['file']) }}"
+                                                                                target="_new">
+                                                                                <i class="bx bx-link-alt"></i>
+                                                                                Lihat Dokumen
+                                                                            </a>
+                                                                            @if ($file['approval'] == 1)
+                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                <i class="bx bx-check-circle"></i>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-6">
+                                                                        @if (Auth::user()->roles->code != 'admin')
+                                                                            <div class="d-flex justify-content-center">
+                                                                                <a class="btn btn-add btn-success btn-md"
+                                                                                    title="Update"
+                                                                                    href="{{ url('kelengkapan/' . $file['id'] . '/edit?tipe=' . $extra['id']) }}">
+                                                                                    <i class="bx bx-edit"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <div class="identitas mb-3 d-flex align-items-center">
+                                                            <img src="{{ asset('assets/img/kaltara.png') }}"
+                                                                alt="Dinas">
+                                                            <span class="d-md-block ps-2 username">Dinas Perhutanan</span>
+                                                        </div>
+
+                                                        <input type="hidden" id="approval"
+                                                            value="{{ $extra['approval'] }}">
+
+                                                        <div class="catatan mt-2 mb-2">
+                                                            <b>Catatan Pemeriksa</b>
+                                                            <br>
+                                                            {{ $extra['note'] }}
+                                                        </div>
+
+                                                        @if (Auth::user()->roles->code == 'admin' && isset($extra['approve_id']))
+                                                            <div class="d-flex justify-content-center">
+                                                                <a class="btn-add"
+                                                                    href="{{ url('kelengkapan/' . $extra['approve_id'] . '/pending?tipe=' . $extra['id']) }}">
+                                                                    Berikan Catatan Asistensi
+                                                                </a>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </section>
