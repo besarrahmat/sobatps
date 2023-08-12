@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Additionals;
+use App\Models\MasterAdditionals;
 use App\Models\Programs;
+use App\Models\Progress;
 use App\Models\RAB;
 use App\Models\Usulan;
 use Illuminate\Http\RedirectResponse;
@@ -148,6 +151,8 @@ class UsulanController extends Controller
 			'user_id' => Auth::user()->id,
 		]);
 
+		AdditionalController::blank_file($extra_id->id);
+
 		return redirect('usulan');
 	}
 
@@ -164,8 +169,11 @@ class UsulanController extends Controller
 		$rab_total = RAB::where('usulan_id', $usulan->id)
 			->sum('total');
 
+		$extra_list = $this->show_additionals($usulan->id);
+
 		$usulan['rab'] = $rab;
 		$usulan['rab_total'] = $rab_total;
+		$usulan['extra_list'] = $extra_list;
 
 		return view('pages.usulan.detail-usulan')->with('usulan', $usulan);
 	}
@@ -286,5 +294,54 @@ class UsulanController extends Controller
 		$usulan->save();
 
 		return back();
+	}
+
+	/**
+	 * Display the specified resource from additionals.
+	 */
+	private function show_additionals($id)
+	{
+		$extra_list = MasterAdditionals::all();
+
+		foreach ($extra_list as $extra) {
+			$extra->tanggal = $extra->approval = $extra->approve_id = null;
+			$extra->catatan = $extra->note = '-';
+			$extra->is_file_exist = false;
+			$extra->file_list = [];
+
+			$latestRecord = Additionals::where('file_type', $extra->id)
+				->where('usulan_id', $id)
+				->latest('id')
+				->first(['tanggal', 'deskripsi', 'approval', 'file']);
+
+			if ($latestRecord) {
+				$extra->tanggal = $latestRecord->tanggal ? date('d-m-Y', strtotime($latestRecord->tanggal)) : null;
+				$extra->approval = $latestRecord->approval;
+				$extra->is_file_exist = (bool) $latestRecord->file;
+
+				if ($latestRecord->deskripsi !== '-') $extra->catatan = $latestRecord->deskripsi ?? '-';
+			}
+
+			$note = Additionals::where('file_type', $extra['id'])
+				->where('usulan_id', $id)
+				->where('note', '!=', '-')
+				->latest('id')
+				->first('note');
+
+			$approve_id = Additionals::where('file_type', $extra->id)
+				->where('usulan_id', $id)
+				->where('approval', 0)
+				->value('id');
+
+			$extra->note = $note->note ?? '-';
+			$extra->approve_id = $approve_id ?? null;
+
+			$extra->file_list = Additionals::where('file_type', $extra->id)
+				->where('usulan_id', $id)
+				->orderBy('id')
+				->get(['id', 'file', 'approval']);
+		}
+
+		return $extra_list;
 	}
 }

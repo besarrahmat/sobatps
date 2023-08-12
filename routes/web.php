@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdditionalController;
 use App\Http\Controllers\HibahController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KUPSController;
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
 		'draft-hibah' => HibahController::class,
 		'usulan' => UsulanController::class,
 		'rab' => RABController::class,
+		'kelengkapan' => AdditionalController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
@@ -74,6 +76,9 @@ Route::middleware('auth')->group(function () {
 	Route::patch('draft-hibah/{draft_hibah}/approve', [HibahController::class, 'approve'])->name('draft-hibah.approve');
 
 	Route::patch('usulan/{usulan}/open-close', [UsulanController::class, 'open_close'])->name('usulan.status');
+
+	Route::get('kelengkapan/{kelengkapan}/pending', [AdditionalController::class, 'pending'])->name('kelengkapan.pending');
+	Route::patch('kelengkapan/{kelengkapan}/approve', [AdditionalController::class, 'approve'])->name('kelengkapan.approve');
 
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
