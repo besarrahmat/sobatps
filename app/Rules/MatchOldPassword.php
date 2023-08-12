@@ -36,6 +36,12 @@ class MatchOldPassword implements Rule
 	 */
 	public function message()
 	{
-		return 'Wrong password.';
+		if (app()->getLocale() === 'id') {
+			$message = 'Password Anda salah.';
+		} else {
+			$message = 'Wrong password.';
+		}
+
+		return $message;
 	}
 }
