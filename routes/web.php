@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [StartController::class, 'index'])->name('start');
 
-Route::get('/home', [HomeController::class, 'index'])
+Route::get('home', [HomeController::class, 'index'])
 	->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

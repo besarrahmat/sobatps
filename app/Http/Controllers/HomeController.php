@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LembagaKUPS;
+use App\Models\LembagaPS;
+use App\Models\Usulan;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -11,6 +14,16 @@ class HomeController extends Controller
 	 */
 	public function index(): View
 	{
-		return view('pages.home');
+		$total_ps = LembagaPS::count();
+		$total_kups = LembagaKUPS::count();
+		$total_usulan = Usulan::count();
+
+		$array = array(
+			'total_ps' => $total_ps,
+			'total_kups' => $total_kups,
+			'total_usulan' => $total_usulan,
+		);
+
+		return view('pages.dashboard')->with($array);
 	}
 }
