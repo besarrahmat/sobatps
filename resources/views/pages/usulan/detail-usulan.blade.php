@@ -339,6 +339,106 @@
 
                             </div>
                         </div>
+
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="card-progress-title mb-4">
+                                    <h2>Progress Kegiatan</h2>
+                                    <p>Berikut ini adalah daftar progress kegiatan anda</p>
+                                </div>
+
+                                @if (Auth::user()->roles->code != 'admin')
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <a class="btn btn-primary w-100 py-3"
+                                            href="{{ url('progress/create?usulan_id=' . $usulan['id']) }}">
+                                            Tambah Progress Kegiatan
+                                        </a>
+                                    </div>
+                                @endif
+
+                                <div class="card-progress-body">
+                                    <table class="table table-striped table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col no">#</th>
+                                                <th scope="col date">Tanggal</th>
+                                                <th scope="col activity" style="width: 55%">Aktivitas</th>
+                                                <th scope="col doc">Dokumentasi</th>
+                                                <th class="action-column">&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i = 0; ?>
+                                            @foreach ($usulan['progress'] as $progress)
+                                                <tr data-key="0">
+                                                    <td scope="row">
+                                                        {{ ++$i }}
+                                                    </td>
+                                                    <td>{{ $progress['date'] }}</td>
+                                                    <td>{{ $progress['activity'] }}</td>
+                                                    <td>
+                                                        <div class="mb-3 link-file">
+                                                            <a href="{{ asset('storage/' . $progress['documentation']) }}"
+                                                                target="_new">
+                                                                <i class="bx bx-link-alt"></i>
+                                                                Lihat Dokumentasi
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @if ($progress['approval'] === 0)
+                                                            <ul class="list-inline m-0">
+                                                                @if (Auth::user()->roles->code != 'admin')
+                                                                    <li class="list-inline-item">
+                                                                        <a class="btn btn-success btn-md rounded-0"
+                                                                            type="button" title="Edit"
+                                                                            href="{{ url('progress/' . $progress['id'] . '/edit') }}">
+                                                                            <i class="bx bx-edit"></i>
+                                                                        </a>
+                                                                    </li>
+
+                                                                    <li class="list-inline-item">
+                                                                        <form method="POST"
+                                                                            action="{{ url('progress/' . $progress['id']) }}">
+                                                                            @csrf
+                                                                            @method('DELETE')
+
+                                                                            <button
+                                                                                class="btn btn-danger btn-md rounded-0 show_confirm_progress"
+                                                                                type="submit" title="Hapus">
+                                                                                <i class="bx bx-trash"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </li>
+                                                                @endif
+
+                                                                @if (Auth::user()->roles->code == 'admin')
+                                                                    <div>
+                                                                        <form method="POST"
+                                                                            action="{{ url('progress/' . $progress['id'] . '/approve') }}">
+                                                                            @csrf
+                                                                            @method('PATCH')
+
+                                                                            <button
+                                                                                class="btn btn-warning btn-md rounded-0"
+                                                                                type="submit">
+                                                                                Disetujui
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
+                                                                @endif
+                                                            </ul>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
                     @endif
 
                 </div>
@@ -390,6 +490,12 @@
 
         $('.show_confirm_rab').click(function(e) {
             if (!confirm('Apakah Anda yakin akan menghapus anggaran ini?')) {
+                e.preventDefault();
+            }
+        });
+
+        $('.show_confirm_progress').click(function(e) {
+            if (!confirm('Apakah Anda yakin akan menghapus progress ini?')) {
                 e.preventDefault();
             }
         });

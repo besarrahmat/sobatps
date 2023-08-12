@@ -171,9 +171,20 @@ class UsulanController extends Controller
 
 		$extra_list = $this->show_additionals($usulan->id);
 
+		$progress = Progress::where('usulan_id', $usulan->id)
+			->get();
+
+		$date_index = 0;
+
+		foreach ($progress as $item) {
+			$progress[$date_index]->date = date('d-m-Y', strtotime($item->date));
+			$date_index++;
+		}
+
 		$usulan['rab'] = $rab;
 		$usulan['rab_total'] = $rab_total;
 		$usulan['extra_list'] = $extra_list;
+		$usulan['progress'] = $progress;
 
 		return view('pages.usulan.detail-usulan')->with('usulan', $usulan);
 	}
