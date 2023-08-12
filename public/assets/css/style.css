@@ -109,7 +109,6 @@ h6 {
 --------------------------------------------------------------*/
 
 /* Dropdown menus */
-
 .dropdown-menu {
     border-radius: 4px;
     padding: 10px 0;
@@ -200,7 +199,6 @@ h6 {
 }
 
 /* Light Backgrounds */
-
 .bg-primary-light {
     background-color: #cfe2ff;
     border-color: #cfe2ff;
@@ -237,7 +235,6 @@ h6 {
 }
 
 /* Card */
-
 .card {
     margin-bottom: 30px;
     border: none;
@@ -339,7 +336,6 @@ h6 {
 }
 
 /* Alerts */
-
 .alert-heading {
     font-weight: 500;
     font-family: "Poppins", sans-serif;
@@ -347,7 +343,6 @@ h6 {
 }
 
 /* Close Button */
-
 .btn-close {
     background-size: 25%;
 }
@@ -358,7 +353,6 @@ h6 {
 }
 
 /* Accordion */
-
 .accordion-item {
     border: 1px solid #ebeef4;
 }
@@ -391,7 +385,6 @@ h6 {
 }
 
 /* Breadcrumbs */
-
 .breadcrumb {
     font-size: 14px;
     font-family: "Nunito", sans-serif;
@@ -418,7 +411,6 @@ h6 {
 }
 
 /* Bordered Tabs */
-
 .nav-tabs-bordered {
     border-bottom: 2px solid #ebeef4;
 }
@@ -471,8 +463,6 @@ h6 {
     box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
     background-color: #fff;
     padding-left: 20px;
-    /* Toggle Sidebar Button */
-    /* Search Bar */
 }
 
 .header .toggle-sidebar-btn {
@@ -481,9 +471,15 @@ h6 {
     cursor: pointer;
     color: #012970;
 }
+
 @media (min-width: 1046px) {
     .toggle-sidebar-btn {
         display: none;
+    }
+
+    .edit-profile {
+        position: relative;
+        left: 100px !important;
     }
 }
 
@@ -506,6 +502,7 @@ h6 {
         visibility: hidden;
         opacity: 0;
     }
+
     .header .search-bar-show {
         top: 60px;
         visibility: visible;
@@ -700,6 +697,7 @@ h6 {
     box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
     background-color: #fff;
 }
+
 @media (max-width: 1045px) {
     .sidebar {
         left: -300px;
@@ -1119,7 +1117,6 @@ a.link-file {
 --------------------------------------------------------------*/
 
 /* Filter dropdown */
-
 .dashboard .filter {
     position: absolute;
     right: 0px;
@@ -1158,7 +1155,6 @@ a.link-file {
 }
 
 /* Info Cards */
-
 .dashboard .info-card {
     padding-bottom: 10px;
 }
@@ -1196,7 +1192,6 @@ a.link-file {
 }
 
 /* Activity */
-
 .dashboard .activity {
     font-size: 14px;
 }
@@ -1244,7 +1239,6 @@ a.link-file {
 }
 
 /* News & Updates */
-
 .dashboard .news .post-item + .post-item {
     margin-top: 15px;
 }
@@ -1278,7 +1272,6 @@ a.link-file {
 }
 
 /* Recent Sales */
-
 .dashboard .recent-sales {
     font-size: 14px;
 }
@@ -1300,7 +1293,6 @@ a.link-file {
 }
 
 /* Top Selling */
-
 .dashboard .top-selling {
     font-size: 14px;
 }

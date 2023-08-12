@@ -89,9 +89,9 @@ Route::middleware('auth')->group(function () {
 
 	Route::patch('progress/{progress}/approve', [ProgressController::class, 'approve'])->name('progress.approve');
 
-	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+	Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+	Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+	Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';
