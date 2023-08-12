@@ -7,6 +7,7 @@ use App\Http\Controllers\KUPSController;
 use App\Http\Controllers\MasterAdditionalsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\PSController;
 use App\Http\Controllers\RABController;
 use App\Http\Controllers\SKController;
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
 		'usulan' => UsulanController::class,
 		'rab' => RABController::class,
 		'kelengkapan' => AdditionalController::class,
+		'progress' => ProgressController::class,
 	]);
 
 	Route::patch('user/{user}/password', [UserController::class, 'password'])->name('user.password');
@@ -79,6 +81,8 @@ Route::middleware('auth')->group(function () {
 
 	Route::get('kelengkapan/{kelengkapan}/pending', [AdditionalController::class, 'pending'])->name('kelengkapan.pending');
 	Route::patch('kelengkapan/{kelengkapan}/approve', [AdditionalController::class, 'approve'])->name('kelengkapan.approve');
+
+	Route::patch('progress/{progress}/approve', [ProgressController::class, 'approve'])->name('progress.approve');
 
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
