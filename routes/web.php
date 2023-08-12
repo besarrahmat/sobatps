@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdditionalController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\HibahController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KUPSController;
@@ -29,6 +30,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [StartController::class, 'index'])->name('start');
+Route::get('lembaga-list', [DataController::class, 'lembaga_list'])->name('start.lembaga');
+Route::get('program-list', [DataController::class, 'program_list'])->name('start.program');
+Route::get('receiver-list', [DataController::class, 'receiver_list'])->name('start.receiver');
+Route::get('category-list', [DataController::class, 'category_list'])->name('start.category');
 
 Route::get('home', [HomeController::class, 'index'])
 	->middleware(['auth', 'verified'])->name('dashboard');
