@@ -11,7 +11,7 @@
                     <div class="icon">
                         <i class="bx bxl-dribbble"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $hl }}</h4>
                     <p>Hutan Lindung</p>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <div class="icon">
                         <i class="bx bx-file"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $hlhpt }}</h4>
                     <p>Hutan Lindung serta Hutan Produksi Terbatas</p>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                     <div class="icon">
                         <i class="bx bx-tachometer"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $hp }}</h4>
                     <p>Hutan Produksi Tetap</p>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <div class="icon">
                         <i class="bx bx-layer"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $hphpt }}</h4>
                     <p>Hutan Produksi Tetap serta Hutan Produksi Terbatas</p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <div class="icon">
                         <i class="bx bx-slideshow"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $hpk }}</h4>
                     <p>Hutan Produksi yang dapat Dikonversikan</p>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                     <div class="icon">
                         <i class="bx bx-arch"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $hpt }}</h4>
                     <p>Hutan Produksi Terbatas</p>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                     <div class="icon">
                         <i class="bx bx-speaker"></i>
                     </div>
-                    <h4>7</h4>
+                    <h4>{{ $xxx }}</h4>
                     <p>-</p>
                 </div>
             </div>

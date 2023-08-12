@@ -7,6 +7,16 @@
         </div>
 
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="300">
+            @foreach ($gallery as $picture)
+                <div class="col-lg-4 col-md-6 portfolio-item">
+                    <div class="portfolio-wrap">
+                        <img src="{{ asset('storage/' . $picture['documentation']) }}" class="img-fluid" alt="">
+                        <div class="portfolio-info">
+                            <p>{{ $picture['activity'] }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
     </div>
