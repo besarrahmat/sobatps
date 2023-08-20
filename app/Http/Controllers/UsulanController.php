@@ -138,13 +138,14 @@ class UsulanController extends Controller
 
 			$source = storage_path('app/public/' . $path);
 			// $destination = public_path('berkas/' . $path);
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+			$destination = config('custom.path') . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
 			}
 
 			File::copyDirectory($source, $destination);
+			Storage::deleteDirectory($path);
 		}
 
 		$extra_id = Usulan::create([
@@ -268,9 +269,8 @@ class UsulanController extends Controller
 			$old = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$new = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
 
-			Storage::move($old, $new);
 			// File::move(public_path('berkas/' . $old), public_path('berkas/' . $new));
-			File::move($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $old, $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $new);
+			File::move(config('custom.path') . $old, config('custom.path') . $new);
 		}
 
 		$usulan->update([
@@ -282,10 +282,10 @@ class UsulanController extends Controller
 		]);
 
 		if ($request->hasFile('proposal')) {
-			if (isset($usulan->proposal) && Storage::exists($usulan->proposal)) {
-				Storage::delete($usulan->proposal);
+			// if (isset($usulan->proposal) && File::exists(public_path('berkas/' . $usulan->proposal))) {
+			if (isset($usulan->proposal) && File::exists(config('custom.path') . $usulan->proposal)) {
 				// File::delete(public_path('berkas/' . $usulan->proposal));
-				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $usulan->proposal);
+				File::delete(config('custom.path') . $usulan->proposal);
 			}
 
 			$path = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
@@ -295,13 +295,14 @@ class UsulanController extends Controller
 
 			$source = storage_path('app/public/' . $path);
 			// $destination = public_path('berkas/' . $path);
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+			$destination = config('custom.path') . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
 			}
 
 			File::copyDirectory($source, $destination);
+			Storage::deleteDirectory($path);
 
 			$usulan->update([
 				'proposal' => $request->proposal,
@@ -318,9 +319,8 @@ class UsulanController extends Controller
 	{
 		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 
-		Storage::deleteDirectory($path);
 		// File::deleteDirectory(public_path('berkas/' . $path));
-		File::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path);
+		File::deleteDirectory(config('custom.path') . $path);
 
 		$usulan->delete();
 

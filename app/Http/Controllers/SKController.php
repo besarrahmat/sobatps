@@ -49,13 +49,14 @@ class SKController extends Controller
 
 		$source = storage_path('app/public/sk_umum');
 		// $destination = public_path('berkas/sk_umum');
-		$destination = $_SERVER['DOCUMENT_ROOT'] . '/berkas/sk_umum';
+		$destination = config('custom.path') . 'sk_umum';
 
 		if (!File::exists($destination)) {
 			File::makeDirectory($destination, 0777, true, true);
 		}
 
 		File::copyDirectory($source, $destination);
+		Storage::deleteDirectory('sk_umum');
 
 		DB::table('sk')
 			->insert([
@@ -100,9 +101,8 @@ class SKController extends Controller
 		$sk = DB::table('sk')
 			->find($id, 'file_sk');
 
-		Storage::delete($sk->file_sk);
 		// File::delete(public_path('berkas/' . $sk->file_sk));
-		File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $sk->file_sk);
+		File::delete(config('custom.path') . $sk->file_sk);
 
 		DB::table('sk')
 			->delete($id);
