@@ -284,7 +284,7 @@ class UsulanController extends Controller
 	 */
 	public function destroy(Usulan $usulan): RedirectResponse
 	{
-		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id;
+		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 
 		Storage::deleteDirectory($path);
 
