@@ -137,7 +137,8 @@ class UsulanController extends Controller
 			$request->proposal = $request->proposal->storeAs($path, $file);
 
 			$source = storage_path('app/public/' . $path);
-			$destination = public_path('berkas/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
@@ -268,7 +269,8 @@ class UsulanController extends Controller
 			$new = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
 
 			Storage::move($old, $new);
-			File::move(public_path('berkas/' . $old), public_path('berkas/' . $new));
+			// File::move(public_path('berkas/' . $old), public_path('berkas/' . $new));
+			File::move($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $old, $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $new);
 		}
 
 		$usulan->update([
@@ -282,7 +284,8 @@ class UsulanController extends Controller
 		if ($request->hasFile('proposal')) {
 			if (isset($usulan->proposal) && Storage::exists($usulan->proposal)) {
 				Storage::delete($usulan->proposal);
-				File::delete(public_path('berkas/' . $usulan->proposal));
+				// File::delete(public_path('berkas/' . $usulan->proposal));
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $usulan->proposal);
 			}
 
 			$path = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
@@ -291,7 +294,8 @@ class UsulanController extends Controller
 			$request->proposal = $request->proposal->storeAs($path, $file);
 
 			$source = storage_path('app/public/' . $path);
-			$destination = public_path('berkas/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
@@ -315,7 +319,8 @@ class UsulanController extends Controller
 		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 
 		Storage::deleteDirectory($path);
-		File::deleteDirectory(public_path('berkas/' . $path));
+		// File::deleteDirectory(public_path('berkas/' . $path));
+		File::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path);
 
 		$usulan->delete();
 

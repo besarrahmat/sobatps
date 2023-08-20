@@ -118,7 +118,8 @@ class HibahController extends Controller
 		$request->file_sk = $request->file_sk->storeAs($path, $file);
 
 		$source = storage_path('app/public/' . $path);
-		$destination = public_path('berkas/' . $path);
+		// $destination = public_path('berkas/' . $path);
+		$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 		if (!File::exists($destination)) {
 			File::makeDirectory($destination, 0777, true, true);

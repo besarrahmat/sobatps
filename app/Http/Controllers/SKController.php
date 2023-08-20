@@ -48,7 +48,8 @@ class SKController extends Controller
 		$request->file_sk = $request->file_sk->storeAs('sk_umum', $file);
 
 		$source = storage_path('app/public/sk_umum');
-		$destination = public_path('berkas/sk_umum');
+		// $destination = public_path('berkas/sk_umum');
+		$destination = $_SERVER['DOCUMENT_ROOT'] . '/berkas/sk_umum';
 
 		if (!File::exists($destination)) {
 			File::makeDirectory($destination, 0777, true, true);
@@ -100,7 +101,8 @@ class SKController extends Controller
 			->find($id, 'file_sk');
 
 		Storage::delete($sk->file_sk);
-		File::delete(public_path('berkas/' . $sk->file_sk));
+		// File::delete(public_path('berkas/' . $sk->file_sk));
+		File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $sk->file_sk);
 
 		DB::table('sk')
 			->delete($id);
