@@ -6,6 +6,7 @@ use App\Models\Progress;
 use App\Models\Usulan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -49,6 +50,15 @@ class ProgressController extends Controller
 			$file = now()->format('U') . '-' . $request->dokumentasi->getClientOriginalName();
 
 			$request->dokumentasi = $request->dokumentasi->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			$destination = public_path('berkas/' . $path);
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		Progress::create([
@@ -96,15 +106,25 @@ class ProgressController extends Controller
 			'activity' => $request->aktivitas,
 		]);
 
-		if ($request->hasFile('proposal')) {
+		if ($request->hasFile('dokumentasi')) {
 			if (isset($progress->documentation) && Storage::exists($progress->documentation)) {
 				Storage::delete($progress->documentation);
+				File::delete(public_path('berkas/' . $progress->documentation));
 			}
 
 			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$file = date('U') . '-' . $request->dokumentasi->getClientOriginalName();
 
 			$request->dokumentasi = $request->dokumentasi->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			$destination = public_path('berkas/' . $path);
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$progress->update([
 				'documentation' => $request->dokumentasi,
@@ -120,6 +140,7 @@ class ProgressController extends Controller
 	public function destroy(Progress $progress)
 	{
 		Storage::delete($progress->documentation);
+		File::delete(public_path('berkas/' . $progress->documentation));
 
 		$progress->delete();
 

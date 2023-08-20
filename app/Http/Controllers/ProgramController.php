@@ -6,6 +6,7 @@ use App\Models\Programs;
 use App\Models\Usulan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -61,6 +62,15 @@ class ProgramController extends Controller
 			$file = date('U') . '-' . $request->file_kak->getClientOriginalName();
 
 			$request->file_kak = $request->file_kak->storeAs('program', $file);
+
+			$source = storage_path('app/public/program');
+			$destination = public_path('berkas/program');
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		Programs::create([
@@ -122,11 +132,21 @@ class ProgramController extends Controller
 		if ($request->hasFile('file_kak')) {
 			if (isset($program->kak_file) && Storage::exists($program->kak_file)) {
 				Storage::delete($program->kak_file);
+				File::delete(public_path('berkas/' . $program->kak_file));
 			}
 
 			$file = date('U') . '-' . $request->file_kak->getClientOriginalName();
 
 			$request->file_kak = $request->file_kak->storeAs('program', $file);
+
+			$source = storage_path('app/public/program');
+			$destination = public_path('berkas/program');
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$program->update([
 				'kak_file' => $request->file_kak,
@@ -142,6 +162,7 @@ class ProgramController extends Controller
 	public function destroy(Programs $program): RedirectResponse
 	{
 		Storage::delete($program->kak_file);
+		File::delete(public_path('berkas/' . $program->kak_file));
 
 		$program->delete();
 

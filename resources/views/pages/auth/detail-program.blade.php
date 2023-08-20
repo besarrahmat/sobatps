@@ -109,7 +109,7 @@
                                 <button class="btn btn-warning collapsed col-2" type="button" data-toggle="collapse"
                                     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                     @if ($program['kak_file'] == null) hidden @endif>
-                                    <a href="{{ asset('storage/' . $program['kak_file']) }}" target="_new">
+                                    <a href="{{ asset('berkas/' . $program['kak_file']) }}" target="_new">
                                         Lihat File KAK
                                     </a>
                                 </button>

@@ -53,7 +53,7 @@
 
                     <div>
                         <label for="dokumentasi" class="col-form-label">Dokumentasi</label>
-                        <a class="link-file" href="{{ asset('storage/' . $progress['documentation']) }}" target="_new">
+                        <a class="link-file" href="{{ asset('berkas/' . $progress['documentation']) }}" target="_new">
                             <i class="bx bx-link-alt"></i>
                             Lihat File Awal
                         </a>

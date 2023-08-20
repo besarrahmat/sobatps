@@ -34,7 +34,7 @@
                                     <tr>
                                         <th>Dokumen</th>
                                         <td>
-                                            <a class="berkas" href="{{ asset('storage/' . $kelengkapan['file']) }}"
+                                            <a class="berkas" href="{{ asset('berkas/' . $kelengkapan['file']) }}"
                                                 target="_new">
                                                 <i class="bx bx-link-alt"></i>
                                                 Lihat File Kelengkapan

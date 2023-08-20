@@ -47,7 +47,7 @@
                                                     <li class="list-inline-item">
                                                         <a class="btn btn-warning btn-md rounded-0" type="button"
                                                             title="Tampilkan File"
-                                                            href="{{ asset('storage/' . $sk->file_sk) }}" target="_new">
+                                                            href="{{ asset('berkas/' . $sk->file_sk) }}" target="_new">
                                                             <i class="bx bx-file"></i>
                                                         </a>
                                                     </li>

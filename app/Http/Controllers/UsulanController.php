@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -134,6 +135,15 @@ class UsulanController extends Controller
 			$file = date('U') . '-' . $request->proposal->getClientOriginalName();
 
 			$request->proposal = $request->proposal->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			$destination = public_path('berkas/' . $path);
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		$extra_id = Usulan::create([
@@ -253,6 +263,14 @@ class UsulanController extends Controller
 			]);
 		}
 
+		if ($usulan->applicant_name != strtoupper($request->nama_pengusul)) {
+			$old = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
+			$new = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
+
+			Storage::move($old, $new);
+			File::move(public_path('berkas/' . $old), public_path('berkas/' . $new));
+		}
+
 		$usulan->update([
 			'applicant_name' => strtoupper($request->nama_pengusul),
 			'proposal_sp_num' => $request->no_sp_proposal,
@@ -264,12 +282,22 @@ class UsulanController extends Controller
 		if ($request->hasFile('proposal')) {
 			if (isset($usulan->proposal) && Storage::exists($usulan->proposal)) {
 				Storage::delete($usulan->proposal);
+				File::delete(public_path('berkas/' . $usulan->proposal));
 			}
 
 			$path = 'proposal/' . $request->program . '-' . $usulan->kups_id . '/' . strtolower($request->nama_pengusul);
 			$file = date('U') . '-' . $request->proposal->getClientOriginalName();
 
 			$request->proposal = $request->proposal->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			$destination = public_path('berkas/' . $path);
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$usulan->update([
 				'proposal' => $request->proposal,
@@ -287,6 +315,7 @@ class UsulanController extends Controller
 		$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 
 		Storage::deleteDirectory($path);
+		File::deleteDirectory(public_path('berkas/' . $path));
 
 		$usulan->delete();
 
