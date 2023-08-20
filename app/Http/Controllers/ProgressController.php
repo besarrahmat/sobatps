@@ -52,7 +52,8 @@ class ProgressController extends Controller
 			$request->dokumentasi = $request->dokumentasi->storeAs($path, $file);
 
 			$source = storage_path('app/public/' . $path);
-			$destination = public_path('berkas/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
@@ -109,7 +110,8 @@ class ProgressController extends Controller
 		if ($request->hasFile('dokumentasi')) {
 			if (isset($progress->documentation) && Storage::exists($progress->documentation)) {
 				Storage::delete($progress->documentation);
-				File::delete(public_path('berkas/' . $progress->documentation));
+				// File::delete(public_path('berkas/' . $progress->documentation));
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $progress->documentation);
 			}
 
 			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
@@ -118,7 +120,8 @@ class ProgressController extends Controller
 			$request->dokumentasi = $request->dokumentasi->storeAs($path, $file);
 
 			$source = storage_path('app/public/' . $path);
-			$destination = public_path('berkas/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
@@ -140,7 +143,8 @@ class ProgressController extends Controller
 	public function destroy(Progress $progress)
 	{
 		Storage::delete($progress->documentation);
-		File::delete(public_path('berkas/' . $progress->documentation));
+		// File::delete(public_path('berkas/' . $progress->documentation));
+		File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $progress->documentation);
 
 		$progress->delete();
 
