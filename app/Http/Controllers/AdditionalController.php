@@ -78,14 +78,13 @@ class AdditionalController extends Controller
 
 			$source = storage_path('app/public/' . $path);
 			// $destination = public_path('berkas/' . $path);
-			$destination = config('custom.path') . $path;
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
 			}
 
 			File::copyDirectory($source, $destination);
-			Storage::deleteDirectory($path);
 		}
 
 		$file = Additionals::where('usulan_id', $request->usulan_id)
@@ -165,10 +164,10 @@ class AdditionalController extends Controller
 		]);
 
 		if ($request->hasFile('file_laporan')) {
-			// if (isset($kelengkapan->file) && File::exists(public_path('berkas/' . $kelengkapan->file))) {
-			if (isset($kelengkapan->file) && File::exists(config('custom.path') . $kelengkapan->file)) {
+			if (isset($kelengkapan->file) && Storage::exists($kelengkapan->file)) {
+				Storage::delete($kelengkapan->file);
 				// File::delete(public_path('berkas/' . $kelengkapan->file));
-				File::delete(config('custom.path') . $kelengkapan->file);
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $kelengkapan->file);
 			}
 
 			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
@@ -178,14 +177,13 @@ class AdditionalController extends Controller
 
 			$source = storage_path('app/public/' . $path);
 			// $destination = public_path('berkas/' . $path);
-			$destination = config('custom.path') . $path;
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
 			}
 
 			File::copyDirectory($source, $destination);
-			Storage::deleteDirectory($path);
 
 			$kelengkapan->update([
 				'file' => $request->file_laporan,
