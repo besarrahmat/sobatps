@@ -61,11 +61,7 @@
 
                     <div>
                         <label for="file-laporan" class="col-form-label">File Kelengkapan</label>
-                        {{-- <a class="link-file" href="{{ asset('storage/' . $kelengkapan['file']) }}" target="_new">
-                            <i class="bx bx-link-alt"></i>
-                            Lihat Dokumen Awal
-                        </a> --}}
-                        <a class="link-file" href="{{ url('view/' . $kelengkapan['file']) }}" target="_new">
+                        <a class="link-file" href="{{ asset('berkas/' . $kelengkapan['file']) }}" target="_new">
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal
                         </a>

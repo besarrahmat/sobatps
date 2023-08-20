@@ -63,7 +63,7 @@
                                             <td>{{ $hibah->tanggal_sk }}</td>
                                             <td>
                                                 <a class="btn btn-warning btn-md rounded-0" type="button"
-                                                    title="Tampilkan File" href="{{ asset('storage/' . $hibah->file_sk) }}"
+                                                    title="Tampilkan File" href="{{ asset('berkas/' . $hibah->file_sk) }}"
                                                     target="_new">
                                                     <i class="bx bx-file"></i>
                                                 </a>

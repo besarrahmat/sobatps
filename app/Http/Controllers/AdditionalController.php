@@ -7,6 +7,8 @@ use App\Models\MasterAdditionals;
 use App\Models\Usulan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AdditionalController extends Controller
@@ -73,6 +75,15 @@ class AdditionalController extends Controller
 			$file = date('U') . '-' . $request->file_laporan->getClientOriginalName();
 
 			$request->file_laporan = $request->file_laporan->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			$destination = public_path('berkas/' . $path);
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		$file = Additionals::where('usulan_id', $request->usulan_id)
@@ -154,12 +165,22 @@ class AdditionalController extends Controller
 		if ($request->hasFile('file_laporan')) {
 			if (isset($kelengkapan->file) && Storage::exists($kelengkapan->file)) {
 				Storage::delete($kelengkapan->file);
+				File::delete(public_path('berkas/' . $kelengkapan->file));
 			}
 
 			$path = 'proposal/' . $usulan->program_id . '-' . $usulan->kups_id . '/' . strtolower($usulan->applicant_name);
 			$file = date('U') . '-' . $request->file_laporan->getClientOriginalName();
 
 			$request->file_laporan = $request->file_laporan->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			$destination = public_path('berkas/' . $path);
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$kelengkapan->update([
 				'file' => $request->file_laporan,

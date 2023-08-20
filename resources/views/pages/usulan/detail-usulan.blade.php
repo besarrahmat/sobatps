@@ -123,7 +123,7 @@
                                 <button class="btn btn-warning collapsed col-2" type="button" data-toggle="collapse"
                                     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                     @if ($usulan['proposal'] == null) hidden @endif>
-                                    <a href="{{ asset('storage/' . $usulan['proposal']) }}" target="_new">
+                                    <a href="{{ asset('berkas/' . $usulan['proposal']) }}" target="_new">
                                         Lihat File Proposal
                                     </a>
                                 </button>
@@ -277,7 +277,7 @@
                                                                 @foreach ($extra['file_list'] as $file)
                                                                     <div class="col-6">
                                                                         <div class="link-file">
-                                                                            <a href="{{ asset('storage/' . $file['file']) }}"
+                                                                            <a href="{{ asset('berkas/' . $file['file']) }}"
                                                                                 target="_new">
                                                                                 <i class="bx bx-link-alt"></i>
                                                                                 Lihat Dokumen
@@ -379,7 +379,7 @@
                                                     <td>{{ $progress['activity'] }}</td>
                                                     <td>
                                                         <div class="mb-3 link-file">
-                                                            <a href="{{ asset('storage/' . $progress['documentation']) }}"
+                                                            <a href="{{ asset('berkas/' . $progress['documentation']) }}"
                                                                 target="_new">
                                                                 <i class="bx bx-link-alt"></i>
                                                                 Lihat Dokumentasi

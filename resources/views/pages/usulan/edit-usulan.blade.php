@@ -127,7 +127,7 @@
 
                     <div class="row-manual mt-3">
                         <label for="file-proposal" class="col-form-label">File Proposal</label>
-                        <a class="link-file" href="{{ asset('storage/' . $usulan['proposal']) }}" target="_new"
+                        <a class="link-file" href="{{ asset('berkas/' . $usulan['proposal']) }}" target="_new"
                             @if ($usulan['proposal'] == null) hidden @endif>
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal

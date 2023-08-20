@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -45,6 +46,15 @@ class SKController extends Controller
 		$file = date('U') . '-' . $request->file_sk->getClientOriginalName();
 
 		$request->file_sk = $request->file_sk->storeAs('sk_umum', $file);
+
+		$source = storage_path('app/public/sk_umum');
+		$destination = public_path('berkas/sk_umum');
+
+		if (!File::exists($destination)) {
+			File::makeDirectory($destination, 0777, true, true);
+		}
+
+		File::copyDirectory($source, $destination);
 
 		DB::table('sk')
 			->insert([
@@ -90,6 +100,7 @@ class SKController extends Controller
 			->find($id, 'file_sk');
 
 		Storage::delete($sk->file_sk);
+		File::delete(public_path('berkas/' . $sk->file_sk));
 
 		DB::table('sk')
 			->delete($id);

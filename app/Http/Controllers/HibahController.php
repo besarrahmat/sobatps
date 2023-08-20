@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class HibahController extends Controller
@@ -115,6 +116,15 @@ class HibahController extends Controller
 		$file = date('U') . '-' . $request->file_sk->getClientOriginalName();
 
 		$request->file_sk = $request->file_sk->storeAs($path, $file);
+
+		$source = storage_path('app/public/' . $path);
+		$destination = public_path('berkas/' . $path);
+
+		if (!File::exists($destination)) {
+			File::makeDirectory($destination, 0777, true, true);
+		}
+
+		File::copyDirectory($source, $destination);
 
 		DB::table('hibah')
 			->insert([

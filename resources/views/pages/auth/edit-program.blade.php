@@ -105,7 +105,7 @@
 
                     <div>
                         <label for="file-kak" class="col-form-label">File KAK</label>
-                        <a class="link-file" href="{{ asset('storage/' . $program['kak_file']) }}" target="_new"
+                        <a class="link-file" href="{{ asset('berkas/' . $program['kak_file']) }}" target="_new"
                             @if ($program['kak_file'] == null) hidden @endif>
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal
