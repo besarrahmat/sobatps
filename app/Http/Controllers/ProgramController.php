@@ -65,13 +65,14 @@ class ProgramController extends Controller
 
 			$source = storage_path('app/public/program');
 			// $destination = public_path('berkas/program');
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/berkas/program';
+			$destination = config('custom.path') . 'program';
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
 			}
 
 			File::copyDirectory($source, $destination);
+			Storage::deleteDirectory('program');
 		}
 
 		Programs::create([
@@ -131,10 +132,10 @@ class ProgramController extends Controller
 		]);
 
 		if ($request->hasFile('file_kak')) {
-			if (isset($program->kak_file) && Storage::exists($program->kak_file)) {
-				Storage::delete($program->kak_file);
+			// if (isset($program->kak_file) && File::exists(public_path('berkas/' . $program->kak_file))) {
+			if (isset($program->kak_file) && File::exists(config('custom.path') . $program->kak_file)) {
 				// File::delete(public_path('berkas/' . $program->kak_file));
-				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $program->kak_file);
+				File::delete(config('custom.path') . $program->kak_file);
 			}
 
 			$file = date('U') . '-' . $request->file_kak->getClientOriginalName();
@@ -143,13 +144,14 @@ class ProgramController extends Controller
 
 			$source = storage_path('app/public/program');
 			// $destination = public_path('berkas/program');
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/berkas/program';
+			$destination = config('custom.path') . 'program';
 
 			if (!File::exists($destination)) {
 				File::makeDirectory($destination, 0777, true, true);
 			}
 
 			File::copyDirectory($source, $destination);
+			Storage::deleteDirectory('program');
 
 			$program->update([
 				'kak_file' => $request->file_kak,
@@ -164,9 +166,8 @@ class ProgramController extends Controller
 	 */
 	public function destroy(Programs $program): RedirectResponse
 	{
-		Storage::delete($program->kak_file);
 		// File::delete(public_path('berkas/' . $program->kak_file));
-		File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $program->kak_file);
+		File::delete(config('custom.path') . $program->kak_file);
 
 		$program->delete();
 

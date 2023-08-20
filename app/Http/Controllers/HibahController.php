@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class HibahController extends Controller
@@ -119,13 +120,14 @@ class HibahController extends Controller
 
 		$source = storage_path('app/public/' . $path);
 		// $destination = public_path('berkas/' . $path);
-		$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+		$destination = config('custom.path') . $path;
 
 		if (!File::exists($destination)) {
 			File::makeDirectory($destination, 0777, true, true);
 		}
 
 		File::copyDirectory($source, $destination);
+		Storage::deleteDirectory($path);
 
 		DB::table('hibah')
 			->insert([
