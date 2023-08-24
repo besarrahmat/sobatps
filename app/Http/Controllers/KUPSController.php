@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LembagaKUPS;
 use App\Models\LembagaPS;
 use App\Models\User;
+use App\Rules\ExtraKUPSExists;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -222,7 +223,7 @@ class KUPSController extends Controller
 	{
 		$request->validate([
 			'lembaga_kups' => ['required', 'integer', 'not_in:0'],
-			'pendamping' => ['required', 'integer', 'not_in:0'],
+			'pendamping' => ['required', 'integer', 'not_in:0', new ExtraKUPSExists()],
 		]);
 
 		DB::table('kups_pendamping')
