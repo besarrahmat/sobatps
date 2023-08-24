@@ -183,13 +183,14 @@ class KUPSController extends Controller
 	{
 		$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
 			->leftJoin('kups_pendamping', 'kups_pendamping.kups_id', '=', 'kups.id')
-			->where('kups_pendamping.kups_id', '=', null)
 			->orderBy('kups.id')
+			->distinct()
 			->get(['kups.id', 'kups.kups_name', 'ps.ps_name']);
 
 		$pendamping = User::join('roles', 'users.roles_id', '=', 'roles.id')
 			->leftJoin('kups_pendamping', 'kups_pendamping.user_id', '=', 'users.id')
 			->where('roles.role', '=', 'Pendamping')
+			->orderBy('users.id')
 			->distinct()
 			->get(['users.id', 'users.name']);
 
