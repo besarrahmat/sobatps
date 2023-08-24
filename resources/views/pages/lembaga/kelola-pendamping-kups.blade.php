@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Pendampingan KUPS')
+@section('title', 'Kelola Pendampingan KUPS')
 
 @section('content')
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Tambah Pendampingan KUPS</h1>
+            <h1>Kelola Pendampingan KUPS</h1>
         </div><!-- End Page Title -->
 
         <div class="card">

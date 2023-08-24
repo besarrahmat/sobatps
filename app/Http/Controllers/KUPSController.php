@@ -214,7 +214,7 @@ class KUPSController extends Controller
 			'list' => $kups_pendamping,
 		);
 
-		return view('pages.lembaga.add-pendamping-kups')->with($data);
+		return view('pages.lembaga.kelola-pendamping-kups')->with($data);
 	}
 
 	/**

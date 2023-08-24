@@ -40,7 +40,7 @@
                 <li>
                     <a href="{{ url('lembaga-kups/' . Auth::user()->id . '/pendampingan') }}">
                         <i class="bi bi-circle"></i>
-                        <span>Tambah Pendampingan KUPS</span>
+                        <span>Kelola Pendampingan KUPS</span>
                     </a>
                 </li>
                 <li>
