@@ -179,7 +179,7 @@ class KUPSController extends Controller
 	/**
 	 * Show the form for choosing some resource.
 	 */
-	public function kups_pendamping(): View
+	public function list_kups_pendamping(): View
 	{
 		$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
 			->leftJoin('kups_pendamping', 'kups_pendamping.kups_id', '=', 'kups.id')

@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
 		return response()->json($query);
 	})->name('lembaga-ps.edit-kode');
 
-	Route::get('lembaga-kups/{lembaga_kup}/pendampingan', [KUPSController::class, 'kups_pendamping'])->name('lembaga-kups.create-pendamping-kups');
+	Route::get('lembaga-kups/{id}/pendampingan', [KUPSController::class, 'list_kups_pendamping'])->name('lembaga-kups.list-pendamping-kups');
 	Route::post('lembaga-kups/pendampingan', [KUPSController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');
 	Route::get('lembaga-kups/{lembaga_kup}/user', [KUPSController::class, 'kups_user'])->name('lembaga-kups.create-user-kups');
 	Route::post('lembaga-kups/user', [KUPSController::class, 'add_kups_user'])->name('lembaga-kups.store-user-kups');
