@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('lembaga-kups/{id}/pendampingan', [KUPSController::class, 'list_kups_pendamping'])->name('lembaga-kups.list-pendamping-kups');
 	Route::post('lembaga-kups/pendampingan', [KUPSController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');
 	Route::delete('lembaga-kups/{id}/pendampingan', [KUPSController::class, 'delete_kups_pendamping'])->name('lembaga-kups.delete-pendamping-kups');
-	Route::get('lembaga-kups/{lembaga_kup}/user', [KUPSController::class, 'kups_user'])->name('lembaga-kups.create-user-kups');
+	Route::get('lembaga-kups/{id}/user', [KUPSController::class, 'list_kups_user'])->name('lembaga-kups.list-user-kups');
 	Route::post('lembaga-kups/user', [KUPSController::class, 'add_kups_user'])->name('lembaga-kups.store-user-kups');
 
 	Route::patch('draft-hibah/{draft_hibah}/approve', [HibahController::class, 'approve'])->name('draft-hibah.approve');
