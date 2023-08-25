@@ -15,10 +15,17 @@ class ExtraKUPSExists implements ValidationRule
 	 */
 	public function validate(string $attribute, mixed $value, Closure $fail): void
 	{
-		$isExist = DB::table('kups_pendamping')
-			->where('user_id', $value)
-			->where('kups_id', request()->input('lembaga_kups'))
-			->first();
+		if ($attribute == 'pendamping') {
+			$isExist = DB::table('kups_pendamping')
+				->where('user_id', $value)
+				->where('kups_id', request()->input('lembaga_kups'))
+				->first();
+		} elseif ($attribute == 'user') {
+			$isExist = DB::table('kups_user')
+				->where('user_id', $value)
+				->where('kups_id', request()->input('lembaga_kups'))
+				->first();
+		}
 
 		if ($isExist) {
 			$fail('Data sudah ada.');

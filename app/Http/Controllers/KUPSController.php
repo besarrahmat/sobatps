@@ -293,13 +293,13 @@ class KUPSController extends Controller
 	}
 
 	/**
-	 * Store a specific resource in storage.
+	 * Store a choosed resource in storage.
 	 */
 	public function add_kups_user(Request $request)
 	{
 		$request->validate([
 			'lembaga_kups' => ['required', 'integer', 'not_in:0'],
-			'user' => ['required', 'integer', 'not_in:0'],
+			'user' => ['required', 'integer', 'not_in:0', new ExtraKUPSExists()],
 		]);
 
 		DB::table('kups_user')
