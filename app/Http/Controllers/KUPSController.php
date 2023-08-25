@@ -286,7 +286,7 @@ class KUPSController extends Controller
 			'list' => $kups_user,
 		);
 
-		return view('pages.lembaga.add-user-kups')->with($data);
+		return view('pages.lembaga.kelola-user-kups')->with($data);
 	}
 
 	/**
