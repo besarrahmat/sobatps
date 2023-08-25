@@ -20,7 +20,7 @@
 
                     <input type="hidden" id="usulan_id" name="usulan_id" value="{{ $usulan_id }}">
 
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12">
                         <div class="form-floating">
                             <input type="text" class="form-control @error('barang') is-invalid @enderror" name="barang"
                                 id="barang" placeholder="Nama Barang" value="{{ old('barang') }}" autofocus>
@@ -34,12 +34,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-4">
                         <div class="form-floating">
-                            <input type="number" step="1" min="0"
+                            <input type="number" step="0.01" min="0"
                                 class="form-control @error('banyak') is-invalid @enderror" name="banyak" id="banyak"
-                                placeholder="Banyak" value="{{ old('banyak') }}" onblur="if(this.value < 0) this.value = 1"
-                                onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                placeholder="Banyak" value="{{ old('banyak') }}"
+                                onblur="if(this.value < 0) this.value = 1; this.value = parseFloat(this.value).toFixed(2);"
+                                onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46))">
                             <label for="banyak">Banyak <span class="text-danger fw-bold">*</span></label>
 
                             @error('banyak')
@@ -50,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-4">
                         <div class="form-floating">
                             <input type="text" class="form-control @error('satuan') is-invalid @enderror" name="satuan"
                                 id="satuan" placeholder="Satuan" value="{{ old('satuan') }}">
@@ -64,11 +65,11 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-4">
                         <div class="form-floating">
-                            <input type="number" step="1" min="0"
+                            <input type="number" step="10" min="0"
                                 class="form-control @error('harga') is-invalid @enderror" name="harga" id="harga"
-                                placeholder="Harga" value="{{ old('harga') }}" onblur="if(this.value < 0) this.value = 1"
+                                placeholder="Harga" value="{{ old('harga') }}" onblur="if(this.value < 0) this.value = 1;"
                                 onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                             <label for="harga">Harga <span class="text-danger fw-bold">*</span></label>
 
