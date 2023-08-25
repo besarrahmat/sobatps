@@ -255,21 +255,18 @@ class KUPSController extends Controller
 	{
 		$kups_list = LembagaKUPS::join('ps', 'kups.ps_id', '=', 'ps.id')
 			->leftJoin('kups_user', 'kups_user.kups_id', '=', 'kups.id')
-			->where('kups_user.kups_id', '=', null)
 			->orderBy('kups.id')
+			->distinct()
 			->get(['kups.id', 'kups.kups_name', 'ps.ps_name']);
 
 		$users = User::join('roles', 'users.roles_id', '=', 'roles.id')
 			->leftJoin('kups_user', 'kups_user.user_id', '=', 'users.id')
 			->where('roles.role', '=', 'User')
-			->where('kups_user.kups_id', '=', null)
+			->orderBy('users.id')
+			->distinct()
 			->get(['users.id', 'users.name']);
 
-		$kups_user = User::join('roles', 'users.roles_id', '=', 'roles.id')
-			->leftJoin('kups_user', 'kups_user.user_id', '=', 'users.id')
-			->where('roles.role', '=', 'User')
-			->get(['users.id', 'users.name']);
-
+		$kups_user = $users;
 		$index = 0;
 
 		foreach ($kups_user as $user) {
