@@ -29,12 +29,14 @@ class ExtraKUPSExists implements ValidationRule
 			$isOnlyOne = DB::table('kups_user')
 				->where('user_id', $value)
 				->count();
+
+			if ($isOnlyOne > 0) {
+				$fail('User KUPS hanya boleh satu Lembaga KUPS.');
+			}
 		}
 
 		if ($isExist) {
 			$fail('Data sudah ada.');
-		} elseif ($isOnlyOne > 0) {
-			$fail('User KUPS hanya boleh satu Lembaga KUPS.');
 		}
 	}
 }
