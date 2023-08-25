@@ -92,8 +92,26 @@
                                 <td>{{ $list['name'] }}</td>
                                 <td>
                                     <ol>
-                                        @foreach ($list['kups'] as $kups)
-                                            <li>{{ $kups['kups_name'] }} - {{ $kups['ps_name'] }}</li>
+                                        @foreach ($list['kups'] as $index => $kups)
+                                            <li class="{{ $index < count($list['kups']) - 1 ? 'mb-1' : '' }}">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        {{ $kups['kups_name'] }} - {{ $kups['ps_name'] }}
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <form class="d-inline-block" method="POST"
+                                                            action="{{ url('lembaga-kups/' . $kups['id'] . '/pendampingan') }}">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button class="btn btn-danger btn-md rounded-0 show_confirm"
+                                                                type="submit" title="Batalkan Pemetaan">
+                                                                <i class="bx bx-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </li>
                                         @endforeach
                                     </ol>
                                 </td>
@@ -108,3 +126,13 @@
 
     </main>
 @endsection
+
+@section('page-js-script')
+    <script type="text/javascript">
+        $('.show_confirm').click(function(e) {
+            if (!confirm('Apakah Anda yakin akan membatalkan pemetaan ini?')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+@stop

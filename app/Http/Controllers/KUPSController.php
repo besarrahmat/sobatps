@@ -202,7 +202,7 @@ class KUPSController extends Controller
 				->join('ps', 'kups.ps_id', '=', 'ps.id')
 				->where('kups_pendamping.user_id', $user->id)
 				->orderBy('kups.id')
-				->get(['kups.kups_name', 'ps.ps_name']);
+				->get(['kups_pendamping.id', 'kups.kups_name', 'ps.ps_name']);
 
 			$kups_pendamping[$index]->kups = $kups;
 			$index++;
@@ -232,6 +232,18 @@ class KUPSController extends Controller
 				'user_id' => $request->pendamping,
 				'kups_id' => $request->lembaga_kups,
 			]);
+
+		return redirect('lembaga-kups/' . Auth::user()->id . '/pendampingan');
+	}
+
+	/**
+	 * Delete a choosed resource in storage.
+	 */
+	public function delete_kups_pendamping(int $id): RedirectResponse
+	{
+		DB::table('kups_pendamping')
+			->where('id', $id)
+			->delete();
 
 		return redirect('lembaga-kups/' . Auth::user()->id . '/pendampingan');
 	}
