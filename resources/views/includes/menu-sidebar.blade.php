@@ -40,13 +40,13 @@
                 <li>
                     <a href="{{ url('lembaga-kups/' . Auth::user()->id . '/pendampingan') }}">
                         <i class="bi bi-circle"></i>
-                        <span>Tambah Pendampingan KUPS</span>
+                        <span>Kelola Pendampingan KUPS</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('lembaga-kups/' . Auth::user()->id . '/user') }}">
                         <i class="bi bi-circle"></i>
-                        <span>Tambah User KUPS</span>
+                        <span>Kelola User KUPS</span>
                     </a>
                 </li>
             </ul>

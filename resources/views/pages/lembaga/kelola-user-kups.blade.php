@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah User KUPS')
+@section('title', 'Kelola User KUPS')
 
 @section('content')
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Tambah User KUPS</h1>
+            <h1>Kelola User KUPS</h1>
         </div><!-- End Page Title -->
 
         <div class="card">
@@ -92,7 +92,23 @@
                                 <td>{{ $list['name'] }}</td>
                                 <td>
                                     @foreach ($list['kups'] as $kups)
-                                        {{ $kups['kups_name'] }} - {{ $kups['ps_name'] }}
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                {{ $kups['kups_name'] }} - {{ $kups['ps_name'] }}
+                                            </div>
+                                            <div class="col-auto">
+                                                <form class="d-inline-block" method="POST"
+                                                    action="{{ url('lembaga-kups/' . $kups['id'] . '/user') }}">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button class="btn btn-danger btn-md rounded-0 show_confirm"
+                                                        type="submit" title="Batalkan Pemetaan">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </td>
                             </tr>
@@ -106,3 +122,13 @@
 
     </main>
 @endsection
+
+@section('page-js-script')
+    <script type="text/javascript">
+        $('.show_confirm').click(function(e) {
+            if (!confirm('Apakah Anda yakin akan membatalkan pemetaan ini?')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+@stop
