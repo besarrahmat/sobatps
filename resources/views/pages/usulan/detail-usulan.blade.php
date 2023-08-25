@@ -155,7 +155,8 @@
                                                     <th scope="col unit">Satuan</th>
                                                     <th scope="col price">Harga</th>
                                                     <th scope="col total">Jumlah</th>
-                                                    <th scope="col other" style="width: 10%"></th>
+                                                    <th scope="col other" style="width: 10%"
+                                                        @if (Auth::user()->roles->code == 'admin') hidden @endif></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -173,7 +174,7 @@
                                                         <td>{{ $rab['unit'] }}</td>
                                                         <td>{{ $rab['price'] }}</td>
                                                         <td>{{ $rab['total'] }}</td>
-                                                        <td>
+                                                        <td @if (Auth::user()->roles->code == 'admin') hidden @endif>
                                                             <ul class="list-inline m-0">
                                                                 @if (Auth::user()->roles->code != 'admin')
                                                                     <li class="list-inline-item">
@@ -365,7 +366,8 @@
                                                 <th scope="col date">Tanggal</th>
                                                 <th scope="col activity" style="width: 55%">Aktivitas</th>
                                                 <th scope="col doc">Dokumentasi</th>
-                                                <th class="action-column">&nbsp;</th>
+                                                <th class="action-column" @if ($usulan['approval']) hidden @endif>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -386,7 +388,7 @@
                                                             </a>
                                                         </div>
                                                     </td>
-                                                    <td>
+                                                    <td @if ($usulan['approval']) hidden @endif>
                                                         @if ($progress['approval'] === 0)
                                                             <ul class="list-inline m-0">
                                                                 @if (Auth::user()->roles->code != 'admin')

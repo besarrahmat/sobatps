@@ -151,11 +151,11 @@
 
                     <div class="col-md-3">
                         <div class="form-floating">
-                            <input type="number" step="1" min="0"
+                            <input type="number" step="0.01" min="0"
                                 class="form-control @error('luas_sk_ps') is-invalid @enderror" name="luas_sk_ps"
                                 id="luas-sk" placeholder="Luas SK" value="{{ old('luas_sk_ps', $ps['area']) }}"
-                                onblur="if(this.value < 0) this.value = 1"
-                                onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                onblur="if(this.value < 0) this.value = 1; this.value = parseFloat(this.value).toFixed(2);"
+                                onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46))">
                             <label for="luas-sk">Luas SK <span class="text-danger fw-bold">*</span></label>
 
                             @error('luas_sk_ps')
@@ -186,7 +186,7 @@
                             <input type="number" step="1" min="0"
                                 class="form-control @error('total_kk') is-invalid @enderror" name="total_kk"
                                 id="total-kk" placeholder="Jumlah KK" value="{{ old('total_kk', $ps['kk_total']) }}"
-                                onblur="if(this.value < 0) this.value = 1"
+                                onblur="if(this.value < 0) this.value = 1;"
                                 onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                             <label for="total-kk">Jumlah KK <span class="text-danger fw-bold">*</span></label>
 

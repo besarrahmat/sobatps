@@ -91,7 +91,7 @@ class PSController extends Controller
 			'desa_ps' => ['required', 'integer', 'not_in:0'],
 			'no_sk_ps' => ['required'],
 			'tgl_sk_ps' => ['required', 'date', 'filled'],
-			'luas_sk_ps' => ['required'],
+			'luas_sk_ps' => ['required', 'numeric', 'min:0.01'],
 			'ketua_ps' => ['sometimes', 'nullable', 'string', 'max:255'],
 			'total_kk' => ['required', 'integer'],
 			'kontak_ps' => ['sometimes', 'nullable', 'regex:/(08)[0-9]{9,11}/'],

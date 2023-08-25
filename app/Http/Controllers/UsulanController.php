@@ -185,9 +185,13 @@ class UsulanController extends Controller
 			->get();
 
 		$date_index = 0;
+		$hasApproval = true;
 
 		foreach ($progress as $item) {
 			$progress[$date_index]->date = date('d-m-Y', strtotime($item->date));
+			if ($progress[$date_index]->approval == 0) {
+				$hasApproval = false;
+			}
 			$date_index++;
 		}
 
@@ -195,6 +199,7 @@ class UsulanController extends Controller
 		$usulan['rab_total'] = $rab_total;
 		$usulan['extra_list'] = $extra_list;
 		$usulan['progress'] = $progress;
+		$usulan['approval'] = $hasApproval;
 
 		return view('pages.usulan.detail-usulan')->with('usulan', $usulan);
 	}

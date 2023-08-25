@@ -34,9 +34,9 @@ class RABController extends Controller
 	{
 		$request->validate([
 			'barang' => ['required', 'string', 'max:255'],
-			'banyak' => ['required', 'integer'],
+			'banyak' => ['required', 'numeric', 'min:0.01'],
 			'satuan' => ['sometimes', 'nullable'],
-			'harga' => ['required', 'integer'],
+			'harga' => ['required', 'integer', 'min:10'],
 		]);
 
 		$request->satuan = ($request->satuan === null) ? '-' : ucwords(strtolower($request->satuan));
@@ -47,7 +47,7 @@ class RABController extends Controller
 			'amount' => $request->banyak,
 			'unit' => $request->satuan,
 			'price' => $request->harga,
-			'total' => (int)$request->banyak * (int)$request->harga,
+			'total' => $request->banyak * (int)$request->harga,
 		]);
 
 		return redirect('usulan/' . $request->usulan_id);
@@ -76,9 +76,9 @@ class RABController extends Controller
 	{
 		$request->validate([
 			'barang' => ['required', 'string', 'max:255'],
-			'banyak' => ['required', 'integer'],
+			'banyak' => ['required', 'numeric', 'min:0.01'],
 			'satuan' => ['sometimes', 'nullable'],
-			'harga' => ['required', 'integer'],
+			'harga' => ['required', 'integer', 'min:10'],
 		]);
 
 		$request->satuan = ($request->satuan === null) ? '-' : ucwords(strtolower($request->satuan));
@@ -88,7 +88,7 @@ class RABController extends Controller
 			'amount' => $request->banyak,
 			'unit' => $request->satuan,
 			'price' => $request->harga,
-			'total' => (int)$request->banyak * (int)$request->harga,
+			'total' => $request->banyak * (int)$request->harga,
 		]);
 
 		return redirect('usulan/' . $rab->usulan_id);
