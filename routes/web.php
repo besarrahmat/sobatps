@@ -5,6 +5,7 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\HibahController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KUPSController;
+use App\Http\Controllers\KUPSExtraController;
 use App\Http\Controllers\MasterAdditionalsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
@@ -75,12 +76,12 @@ Route::middleware('auth')->group(function () {
 		return response()->json($query);
 	})->name('lembaga-ps.edit-kode');
 
-	Route::get('lembaga-kups/{id}/pendampingan', [KUPSController::class, 'list_kups_pendamping'])->name('lembaga-kups.list-pendamping-kups');
-	Route::post('lembaga-kups/pendampingan', [KUPSController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');
-	Route::delete('lembaga-kups/{id}/pendampingan', [KUPSController::class, 'delete_kups_pendamping'])->name('lembaga-kups.delete-pendamping-kups');
-	Route::get('lembaga-kups/{id}/user', [KUPSController::class, 'list_kups_user'])->name('lembaga-kups.list-user-kups');
-	Route::post('lembaga-kups/user', [KUPSController::class, 'add_kups_user'])->name('lembaga-kups.store-user-kups');
-	Route::delete('lembaga-kups/{id}/user', [KUPSController::class, 'delete_kups_user'])->name('lembaga-kups.delete-user-kups');
+	Route::get('lembaga-kups/{id}/pendampingan', [KUPSExtraController::class, 'list_kups_pendamping'])->name('lembaga-kups.list-pendamping-kups');
+	Route::post('lembaga-kups/pendampingan', [KUPSExtraController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');
+	Route::delete('lembaga-kups/{id}/pendampingan', [KUPSExtraController::class, 'delete_kups_pendamping'])->name('lembaga-kups.delete-pendamping-kups');
+	Route::get('lembaga-kups/{id}/user', [KUPSExtraController::class, 'list_kups_user'])->name('lembaga-kups.list-user-kups');
+	Route::post('lembaga-kups/user', [KUPSExtraController::class, 'add_kups_user'])->name('lembaga-kups.store-user-kups');
+	Route::delete('lembaga-kups/{id}/user', [KUPSExtraController::class, 'delete_kups_user'])->name('lembaga-kups.delete-user-kups');
 
 	Route::patch('draft-hibah/{draft_hibah}/approve', [HibahController::class, 'approve'])->name('draft-hibah.approve');
 
