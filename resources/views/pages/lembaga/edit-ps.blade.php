@@ -252,7 +252,7 @@
 
                     <div>
                         <label for="file-sk" class="col-form-label">File SK</label>
-                        <a class="link-file" href="{{ asset('storage/' . $ps['sk_file']) }}" target="_new"
+                        <a class="link-file" href="{{ asset('berkas/' . $ps['sk_file']) }}" target="_new"
                             @if ($ps['sk_file'] == null) hidden @endif>
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal
@@ -269,7 +269,7 @@
 
                     <div>
                         <label for="file-rku" class="col-form-label">File RKU</label>
-                        <a class="link-file" href="{{ asset('storage/' . $ps['rku_file']) }}" target="_new"
+                        <a class="link-file" href="{{ asset('berkas/' . $ps['rku_file']) }}" target="_new"
                             @if ($ps['rku_file'] == null) hidden @endif>
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal
@@ -286,7 +286,7 @@
 
                     <div>
                         <label for="file-rkt" class="col-form-label">File RKT</label>
-                        <a class="link-file" href="{{ asset('storage/' . $ps['rkt_file']) }}" target="_new"
+                        <a class="link-file" href="{{ asset('berkas/' . $ps['rkt_file']) }}" target="_new"
                             @if ($ps['rkt_file'] == null) hidden @endif>
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal
@@ -303,7 +303,7 @@
 
                     <div>
                         <label for="file-shp" class="col-form-label">File SHP</label>
-                        <a class="link-file" href="{{ asset('storage/' . $ps['shp_file']) }}" target="_new"
+                        <a class="link-file" href="{{ asset('berkas/' . $ps['shp_file']) }}" target="_new"
                             @if ($ps['shp_file'] == null) hidden @endif>
                             <i class="bx bx-link-alt"></i>
                             Lihat Dokumen Awal
