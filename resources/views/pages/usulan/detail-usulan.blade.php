@@ -156,7 +156,7 @@
                                                     <th scope="col price">Harga</th>
                                                     <th scope="col total">Jumlah</th>
                                                     <th scope="col other" style="width: 10%"
-                                                        @if (Auth::user()->roles->code == 'admin') hidden @endif></th>
+                                                        @if (Auth::user()->roles->code == 'admin' || count($usulan['rab']) === 0) hidden @endif></th>
                                                 </tr>
                                             </thead>
                                             <tbody>

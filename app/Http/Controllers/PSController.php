@@ -99,7 +99,7 @@ class PSController extends Controller
 			'file_sk_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
 			'file_rku_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
 			'file_rkt_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
-			'file_shp_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
+			'file_shp_ps' => ['sometimes', 'nullable', 'mimes:pdf,zip,rar'],
 		]);
 
 		$request->ketua_ps = ($request->ketua_ps === null) ? 'xxx' : strtoupper($request->ketua_ps);
@@ -228,7 +228,7 @@ class PSController extends Controller
 			'file_sk_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
 			'file_rku_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
 			'file_rkt_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
-			'file_shp_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
+			'file_shp_ps' => ['sometimes', 'nullable', 'mimes:pdf,zip,rar'],
 		]);
 
 		$request->ketua_ps = ($request->ketua_ps === null) ? 'xxx' : strtoupper($request->ketua_ps);
