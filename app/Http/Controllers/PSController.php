@@ -112,6 +112,16 @@ class PSController extends Controller
 			$file = date('U') . '-' . $request->file_sk_ps->getClientOriginalName();
 
 			$request->file_sk_ps = $request->file_sk_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		if (!$request->hasFile('file_rku_ps')) {
@@ -120,6 +130,16 @@ class PSController extends Controller
 			$file = date('U') . '-' . $request->file_rku_ps->getClientOriginalName();
 
 			$request->file_rku_ps = $request->file_rku_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		if (!$request->hasFile('file_rkt_ps')) {
@@ -128,6 +148,16 @@ class PSController extends Controller
 			$file = date('U') . '-' . $request->file_rkt_ps->getClientOriginalName();
 
 			$request->file_rkt_ps = $request->file_rkt_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		if (!$request->hasFile('file_shp_ps')) {
@@ -136,6 +166,16 @@ class PSController extends Controller
 			$file = date('U') . '-' . $request->file_shp_ps->getClientOriginalName();
 
 			$request->file_shp_ps = $request->file_shp_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 		}
 
 		$desa = Region::where('kode', '=', $request->desa_ps)->get('daerah');
@@ -246,6 +286,15 @@ class PSController extends Controller
 			]);
 		}
 
+		if ($usulan->ps_name != strtoupper($request->nama_ps)) {
+			$old = 'lembaga_ps/' . strtolower($usulan->ps_name);
+			$new = 'lembaga_ps/' . strtolower($request->nama_ps);
+
+			Storage::move($old, $new);
+			// File::move(public_path('berkas/' . $old), public_path('berkas/' . $new));
+			File::move($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $old, $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $new);
+		}
+
 		$lembaga_p->update([
 			'ps_name' => strtoupper($request->nama_ps),
 			'ps_sk_num' => $request->no_sk_ps,
@@ -263,11 +312,23 @@ class PSController extends Controller
 		if ($request->hasFile('file_sk_ps')) {
 			if (isset($lembaga_p->sk_file) && Storage::exists($lembaga_p->sk_file)) {
 				Storage::delete($lembaga_p->sk_file);
+				// File::delete(public_path('berkas/' . $lembaga_p->sk_file));
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->sk_file);
 			}
 
 			$file = date('U') . '-' . $request->file_sk_ps->getClientOriginalName();
 
 			$request->file_sk_ps = $request->file_sk_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$lembaga_p->update([
 				'sk_file' => $request->file_sk_ps,
@@ -277,11 +338,23 @@ class PSController extends Controller
 		if ($request->hasFile('file_rku_ps')) {
 			if (isset($lembaga_p->rku_file) && Storage::exists($lembaga_p->rku_file)) {
 				Storage::delete($lembaga_p->rku_file);
+				// File::delete(public_path('berkas/' . $lembaga_p->rku_file));
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->rku_file);
 			}
 
 			$file = date('U') . '-' . $request->file_rku_ps->getClientOriginalName();
 
 			$request->file_rku_ps = $request->file_rku_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$lembaga_p->update([
 				'rku_file' => $request->file_rku_ps,
@@ -291,11 +364,23 @@ class PSController extends Controller
 		if ($request->hasFile('file_rkt_ps')) {
 			if (isset($lembaga_p->rkt_file) && Storage::exists($lembaga_p->rkt_file)) {
 				Storage::delete($lembaga_p->rkt_file);
+				// File::delete(public_path('berkas/' . $lembaga_p->rkt_file));
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->rkt_file);
 			}
 
 			$file = date('U') . '-' . $request->file_rkt_ps->getClientOriginalName();
 
 			$request->file_rkt_ps = $request->file_rkt_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$lembaga_p->update([
 				'rkt_file' => $request->file_rkt_ps,
@@ -305,11 +390,23 @@ class PSController extends Controller
 		if ($request->hasFile('file_shp_ps')) {
 			if (isset($lembaga_p->shp_file) && Storage::exists($lembaga_p->shp_file)) {
 				Storage::delete($lembaga_p->shp_file);
+				// File::delete(public_path('berkas/' . $lembaga_p->shp_file));
+				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->shp_file);
 			}
 
 			$file = date('U') . '-' . $request->file_shp_ps->getClientOriginalName();
 
 			$request->file_shp_ps = $request->file_shp_ps->storeAs($path, $file);
+
+			$source = storage_path('app/public/' . $path);
+			// $destination = public_path('berkas/' . $path);
+			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
+
+			if (!File::exists($destination)) {
+				File::makeDirectory($destination, 0777, true, true);
+			}
+
+			File::copyDirectory($source, $destination);
 
 			$lembaga_p->update([
 				'shp_file' => $request->file_shp_ps,
@@ -327,6 +424,8 @@ class PSController extends Controller
 		$path = 'lembaga_ps/' . strtolower($lembaga_p->ps_name);
 
 		Storage::deleteDirectory($path);
+		// File::deleteDirectory(public_path('berkas/' . $path));
+		File::deleteDirectory($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path);
 
 		$lembaga_p->delete();
 
