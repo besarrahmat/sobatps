@@ -103,28 +103,28 @@
                                 <button class="btn btn-warning collapsed col-2" type="button" data-toggle="collapse"
                                     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                     @if ($ps['sk_file'] == null) hidden @endif>
-                                    <a href="{{ asset('storage/' . $ps['sk_file']) }}" target="_new">
+                                    <a href="{{ asset('berkas/' . $ps['sk_file']) }}" target="_new">
                                         Lihat File SK
                                     </a>
                                 </button>
                                 <button class="btn btn-warning collapsed col-2" type="button" data-toggle="collapse"
                                     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                     @if ($ps['rkt_file'] == null) hidden @endif>
-                                    <a href="{{ asset('storage/' . $ps['rkt_file']) }}" target="_new">
+                                    <a href="{{ asset('berkas/' . $ps['rkt_file']) }}" target="_new">
                                         Lihat File RKT
                                     </a>
                                 </button>
                                 <button class="btn btn-warning collapsed col-2" type="button" data-toggle="collapse"
                                     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                     @if ($ps['rku_file'] == null) hidden @endif>
-                                    <a href="{{ asset('storage/' . $ps['rku_file']) }}" target="_new">
+                                    <a href="{{ asset('berkas/' . $ps['rku_file']) }}" target="_new">
                                         Lihat File RKU
                                     </a>
                                 </button>
                                 <button class="btn btn-warning collapsed col-2" type="button" data-toggle="collapse"
                                     data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                     @if ($ps['shp_file'] == null) hidden @endif>
-                                    <a href="{{ asset('storage/' . $ps['shp_file']) }}" target="_new">
+                                    <a href="{{ asset('berkas/' . $ps['shp_file']) }}" target="_new">
                                         Lihat File SHP
                                     </a>
                                 </button>
