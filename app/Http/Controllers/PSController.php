@@ -287,8 +287,8 @@ class PSController extends Controller
 			]);
 		}
 
-		if ($usulan->ps_name != strtoupper($request->nama_ps)) {
-			$old = 'lembaga_ps/' . strtolower($usulan->ps_name);
+		if ($lembaga_p->ps_name != strtoupper($request->nama_ps)) {
+			$old = 'lembaga_ps/' . strtolower($lembaga_p->ps_name);
 			$new = 'lembaga_ps/' . strtolower($request->nama_ps);
 
 			Storage::move($old, $new);
