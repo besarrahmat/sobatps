@@ -266,10 +266,6 @@ class PSController extends Controller
 			'total_kk' => ['required', 'integer'],
 			'kontak_ps' => ['sometimes', 'nullable', 'regex:/(08)[0-9]{9,11}/'],
 			'fungsi_kawasan' => ['required', 'string'],
-			'file_sk_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
-			'file_rku_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
-			'file_rkt_ps' => ['sometimes', 'nullable', 'mimes:pdf'],
-			'file_shp_ps' => ['sometimes', 'nullable', 'mimes:pdf,zip,rar'],
 		]);
 
 		$request->ketua_ps = ($request->ketua_ps === null) ? 'xxx' : strtoupper($request->ketua_ps);
@@ -307,6 +303,9 @@ class PSController extends Controller
 			'area_function' => $request->fungsi_kawasan,
 			'ps_type_id' => $request->jenis_ps,
 		]);
+
+		return redirect('lembaga-ps/' . $lembaga_p->id);
+	}
 
 		$path = 'lembaga_ps/' . strtolower($request->nama_ps);
 

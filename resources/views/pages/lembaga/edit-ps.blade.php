@@ -250,22 +250,15 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label for="file-sk" class="col-form-label">File SK</label>
-                        <a class="link-file" href="{{ asset('berkas/' . $ps['sk_file']) }}" target="_new"
-                            @if ($ps['sk_file'] == null) hidden @endif>
-                            <i class="bx bx-link-alt"></i>
-                            Lihat Dokumen Awal
-                        </a>
-                        <input class="form-control form-PS @error('file_sk_ps') is-invalid @enderror" type="file"
-                            id="file-sk" name="file_sk_ps">
-
-                        @error('file_sk_ps')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="d-flex justify-content-around">
+                        <button type="submit" class="btn btn-success btn-add">Simpan</button>
+                        <a href="{{ url('lembaga-ps/' . $ps['id']) }}" class="btn btn-danger btn-delete">Batal</a>
                     </div>
+                </form>
+                <!-- End Floating Labels Form -->
+
+            </div>
+        </div>
 
                     <div>
                         <label for="file-rku" class="col-form-label">File RKU</label>
