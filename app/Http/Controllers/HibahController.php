@@ -165,9 +165,13 @@ class HibahController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(string $id): void
+	public function destroy(string $id): RedirectResponse
 	{
-		//
+		DB::table('hibah')
+			->where('id', $id)
+			->delete();
+
+		return back();
 	}
 
 	/**
