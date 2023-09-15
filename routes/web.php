@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
 		}
 		return response()->json($query);
 	})->name('lembaga-ps.edit-kode');
+	Route::patch('lembaga-ps/{lembaga_p}/revisi', [PSController::class, 'revision'])->name('lembaga-ps.revisi-file');
 
 	Route::get('lembaga-kups/{id}/pendampingan', [KUPSExtraController::class, 'list_kups_pendamping'])->name('lembaga-kups.list-pendamping-kups');
 	Route::post('lembaga-kups/pendampingan', [KUPSExtraController::class, 'add_kups_pendamping'])->name('lembaga-kups.store-pendamping-kups');

@@ -269,6 +269,7 @@ h6 {
 }
 
 .card-message,
+.card-file,
 .card-map,
 .card-rab,
 .card-additional,
@@ -286,6 +287,7 @@ h6 {
 }
 
 .card-header-message,
+.card-header-file,
 .card-header-map,
 .card-header-rab,
 .card-header-additional {
@@ -296,6 +298,12 @@ h6 {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
+.card-title-file {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.card-body-file,
 .card-body-map,
 .card-body-rab,
 .card-body-additional {
@@ -988,6 +996,7 @@ div.dataTables_wrapper div.dataTables_length select {
     font-family: "Nunito", sans-serif;
 }
 
+.card-body-file thead > tr > th,
 .card-body-rab thead > tr > th {
     text-align: center;
 }
@@ -1090,13 +1099,15 @@ a.link-file {
 
 .link-file a,
 a.link-file,
+a.link-file-revisi,
 .identitas,
 .berkas {
     color: #3bb537;
 }
 
 .link-file > .bx-check-circle,
-a.link-file {
+a.link-file,
+a.link-file-revisi {
     font-weight: bolder;
 }
 
