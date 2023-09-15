@@ -32,11 +32,12 @@
                                         <th scope="col kups">KUPS</th>
                                         <th scope="col date">Tanggal</th>
                                         <th scope="col file">File</th>
-                                        <th scope="col approve" style="width: 13%">
+                                        <th scope="col approve">
                                             @if ($check != null || Auth::user()->roles->code != 'admin')
                                                 Disetujui?
                                             @endif
                                         </th>
+                                        <th scope="col delete"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,6 +90,23 @@
                                                     @endif
                                                 @endif
                                             </td>
+                                            <td>
+                                                <ul class="list-inline m-0">
+                                                    <li class="list-inline-item"
+                                                        @if (Auth::user()->roles->code != 'admin') hidden @endif>
+                                                        <form method="POST"
+                                                            action="{{ url('draft-hibah/' . $hibah->id) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button class="btn btn-danger btn-md rounded-0 show_confirm"
+                                                                type="submit" title="Hapus">
+                                                                <i class="bx bx-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -104,3 +122,13 @@
 
     </main>
 @endsection
+
+@section('page-js-script')
+    <script type="text/javascript">
+        $('.show_confirm').click(function(e) {
+            if (!confirm('Apakah Anda yakin akan menghapus hibah ini?')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+@stop
