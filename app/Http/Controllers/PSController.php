@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LembagaPS;
 use App\Models\Region;
 use App\Models\Types;
+use App\Rules\SHPRevisionExclusive;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -211,6 +212,48 @@ class PSController extends Controller
 	 */
 	public function show(LembagaPS $lembaga_p): View
 	{
+		$empty = DB::table('ps_revisions')
+			->where('ps_id', $lembaga_p->id)
+			->get();
+
+		if ($empty->isEmpty()) {
+			if ($lembaga_p->sk_file != null) {
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'SK',
+						'file' => $lembaga_p->sk_file,
+					]);
+			}
+
+			if ($lembaga_p->rku_file != null) {
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'RKU',
+						'file' => $lembaga_p->rku_file,
+					]);
+			}
+
+			if ($lembaga_p->rkt_file != null) {
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'RKT',
+						'file' => $lembaga_p->rkt_file,
+					]);
+			}
+
+			if ($lembaga_p->shp_file != null) {
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'SHP',
+						'file' => $lembaga_p->shp_file,
+					]);
+			}
+		}
+
 		$lembaga_p->ps_date = date('d-m-Y', strtotime($lembaga_p->ps_date));
 		$lembaga_p->kecamatan = substr($lembaga_p->region_code, 0, 6);
 		$lembaga_p->kab_kota = substr($lembaga_p->region_code, 0, 4);
@@ -237,12 +280,33 @@ class PSController extends Controller
 		$lembaga_p->kecamatan = substr($lembaga_p->region_code, 0, 6);
 		$lembaga_p->kab_kota = substr($lembaga_p->region_code, 0, 4);
 
+		$sk_revisi = DB::table('ps_revisions')
+			->where('ps_id', $lembaga_p->id)
+			->where('file_type', 'SK')
+			->get();
+		$rku_revisi = DB::table('ps_revisions')
+			->where('ps_id', $lembaga_p->id)
+			->where('file_type', 'RKU')
+			->get();
+		$rkt_revisi = DB::table('ps_revisions')
+			->where('ps_id', $lembaga_p->id)
+			->where('file_type', 'RKT')
+			->get();
+		$shp_revisi = DB::table('ps_revisions')
+			->where('ps_id', $lembaga_p->id)
+			->where('file_type', 'SHP')
+			->get();
+
 		$data = array(
 			'tipe' => $jenis,
 			'kab_kota_list' => $kab_kota_list,
 			'kecamatan_list' => $kecamatan_list,
 			'desa_list' => $desa_list,
 			'ps' => $lembaga_p,
+			'revisi_sk' => $sk_revisi,
+			'revisi_rku' => $rku_revisi,
+			'revisi_rkt' => $rkt_revisi,
+			'revisi_shp' => $shp_revisi,
 		);
 
 		return view('pages.lembaga.edit-ps')->with($data);
@@ -307,44 +371,18 @@ class PSController extends Controller
 		return redirect('lembaga-ps/' . $lembaga_p->id);
 	}
 
-		$path = 'lembaga_ps/' . strtolower($request->nama_ps);
+	public function revision(Request $request, LembagaPS $lembaga_p): RedirectResponse
+	{
+		$request->validate([
+			'file_type' => ['required', 'string'],
+			'new_file' => ['required', new SHPRevisionExclusive($request->file_type)],
+		]);
 
-		if ($request->hasFile('file_sk_ps')) {
-			if (isset($lembaga_p->sk_file) && Storage::exists($lembaga_p->sk_file)) {
-				Storage::delete($lembaga_p->sk_file);
-				// File::delete(public_path('berkas/' . $lembaga_p->sk_file));
-				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->sk_file);
-			}
+		$path = 'lembaga_ps/' . strtolower($lembaga_p->ps_name);
 
-			$file = date('U') . '-' . $request->file_sk_ps->getClientOriginalName();
+		$file = date('U') . '-' . $request->new_file->getClientOriginalName();
 
-			$request->file_sk_ps = $request->file_sk_ps->storeAs($path, $file);
-
-			$source = storage_path('app/public/' . $path);
-			// $destination = public_path('berkas/' . $path);
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
-
-			if (!File::exists($destination)) {
-				File::makeDirectory($destination, 0777, true, true);
-			}
-
-			File::copyDirectory($source, $destination);
-
-			$lembaga_p->update([
-				'sk_file' => $request->file_sk_ps,
-			]);
-		}
-
-		if ($request->hasFile('file_rku_ps')) {
-			if (isset($lembaga_p->rku_file) && Storage::exists($lembaga_p->rku_file)) {
-				Storage::delete($lembaga_p->rku_file);
-				// File::delete(public_path('berkas/' . $lembaga_p->rku_file));
-				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->rku_file);
-			}
-
-			$file = date('U') . '-' . $request->file_rku_ps->getClientOriginalName();
-
-			$request->file_rku_ps = $request->file_rku_ps->storeAs($path, $file);
+		$request->new_file = $request->new_file->storeAs($path, $file);
 
 			$source = storage_path('app/public/' . $path);
 			// $destination = public_path('berkas/' . $path);
@@ -356,61 +394,58 @@ class PSController extends Controller
 
 			File::copyDirectory($source, $destination);
 
+		switch ($request->file_type) {
+			case 'SK':
 			$lembaga_p->update([
-				'rku_file' => $request->file_rku_ps,
+					'sk_file' => $request->new_file,
 			]);
-		}
 
-		if ($request->hasFile('file_rkt_ps')) {
-			if (isset($lembaga_p->rkt_file) && Storage::exists($lembaga_p->rkt_file)) {
-				Storage::delete($lembaga_p->rkt_file);
-				// File::delete(public_path('berkas/' . $lembaga_p->rkt_file));
-				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->rkt_file);
-			}
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'SK',
+						'file' => $lembaga_p->sk_file,
+					]);
+				break;
 
-			$file = date('U') . '-' . $request->file_rkt_ps->getClientOriginalName();
-
-			$request->file_rkt_ps = $request->file_rkt_ps->storeAs($path, $file);
-
-			$source = storage_path('app/public/' . $path);
-			// $destination = public_path('berkas/' . $path);
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
-
-			if (!File::exists($destination)) {
-				File::makeDirectory($destination, 0777, true, true);
-			}
-
-			File::copyDirectory($source, $destination);
-
+			case 'RKU':
 			$lembaga_p->update([
-				'rkt_file' => $request->file_rkt_ps,
+					'rku_file' => $request->new_file,
 			]);
-		}
 
-		if ($request->hasFile('file_shp_ps')) {
-			if (isset($lembaga_p->shp_file) && Storage::exists($lembaga_p->shp_file)) {
-				Storage::delete($lembaga_p->shp_file);
-				// File::delete(public_path('berkas/' . $lembaga_p->shp_file));
-				File::delete($_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $lembaga_p->shp_file);
-			}
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'RKU',
+						'file' => $lembaga_p->rku_file,
+					]);
+				break;
 
-			$file = date('U') . '-' . $request->file_shp_ps->getClientOriginalName();
-
-			$request->file_shp_ps = $request->file_shp_ps->storeAs($path, $file);
-
-			$source = storage_path('app/public/' . $path);
-			// $destination = public_path('berkas/' . $path);
-			$destination = $_SERVER['DOCUMENT_ROOT'] . '/' . 'berkas/' . $path;
-
-			if (!File::exists($destination)) {
-				File::makeDirectory($destination, 0777, true, true);
-			}
-
-			File::copyDirectory($source, $destination);
-
+			case 'RKT':
 			$lembaga_p->update([
-				'shp_file' => $request->file_shp_ps,
+					'rkt_file' => $request->new_file,
 			]);
+
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'RKT',
+						'file' => $lembaga_p->rkt_file,
+					]);
+				break;
+
+			case 'SHP':
+			$lembaga_p->update([
+					'shp_file' => $request->new_file,
+				]);
+
+				DB::table('ps_revisions')
+					->insert([
+						'ps_id' => $lembaga_p->id,
+						'file_type' => 'SHP',
+						'file' => $lembaga_p->shp_file,
+			]);
+				break;
 		}
 
 		return redirect('lembaga-ps/' . $lembaga_p->id);

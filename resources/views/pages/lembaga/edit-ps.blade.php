@@ -260,51 +260,56 @@
             </div>
         </div>
 
-                    <div>
-                        <label for="file-rku" class="col-form-label">File RKU</label>
-                        <a class="link-file" href="{{ asset('berkas/' . $ps['rku_file']) }}" target="_new"
-                            @if ($ps['rku_file'] == null) hidden @endif>
-                            <i class="bx bx-link-alt"></i>
-                            Lihat Dokumen Awal
-                        </a>
-                        <input class="form-control form-PS @error('file_rku_ps') is-invalid @enderror" type="file"
-                            id="file-rku" name="file_rku_ps">
+        <hr>
 
-                        @error('file_rku_ps')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+        <div class="pagetitle">
+            <h1>Pembaruan Berkas {{ $ps['ps_name'] }}</h1>
+        </div><!-- End Page Title -->
+
+        <div class="card">
+            <div class="card-body pt-0">
+
+                <!-- Floating Labels Form -->
+                <form class="row g-3" method="POST" action="{{ url('lembaga-ps/' . $ps['id'] . '/revisi') }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="col-md-2 pt-2">
+                        <div class="form-floating">
+                            <select class="selectpicker form-select @error('file_type') is-invalid @enderror"
+                                name="file_type" id="tipe-file" aria-label="Tipe Berkas">
+                                <option value="" hidden>-</option>
+                                <option value="SK" @if (old('file_type') == 'SK') {{ 'selected' }} @endif>
+                                    SK
+                                </option>
+                                <option value="RKU" @if (old('file_type') == 'RKU') {{ 'selected' }} @endif>
+                                    RKU
+                                </option>
+                                <option value="RKT" @if (old('file_type') == 'RKT') {{ 'selected' }} @endif>
+                                    RKT
+                                </option>
+                                <option value="SHP" @if (old('file_type') == 'SHP') {{ 'selected' }} @endif>
+                                    SHP
+                                </option>
+                            </select>
+                            <label for="tipe-file">Tipe Berkas <span class="text-danger fw-bold">*</span></label>
+
+                            @error('file_type')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
 
-                    <div>
-                        <label for="file-rkt" class="col-form-label">File RKT</label>
-                        <a class="link-file" href="{{ asset('berkas/' . $ps['rkt_file']) }}" target="_new"
-                            @if ($ps['rkt_file'] == null) hidden @endif>
-                            <i class="bx bx-link-alt"></i>
-                            Lihat Dokumen Awal
-                        </a>
-                        <input class="form-control form-PS @error('file_rkt_ps') is-invalid @enderror" type="file"
-                            id="file-rkt" name="file_rkt_ps">
+                    <div class="col-md-10">
+                        <label for="new-file" class="col-form-label pt-0">File Revisi <span
+                                class="text-danger fw-bold">*</span></label>
+                        <input class="form-control @error('new_file') is-invalid @enderror" type="file"
+                            id="new-file" name="new_file">
 
-                        @error('file_rkt_ps')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="file-shp" class="col-form-label">File SHP</label>
-                        <a class="link-file" href="{{ asset('berkas/' . $ps['shp_file']) }}" target="_new"
-                            @if ($ps['shp_file'] == null) hidden @endif>
-                            <i class="bx bx-link-alt"></i>
-                            Lihat Dokumen Awal
-                        </a>
-                        <input class="form-control form-PS @error('file_shp_ps') is-invalid @enderror" type="file"
-                            id="file-shp" name="file_shp_ps">
-
-                        @error('file_shp_ps')
+                        @error('new_file')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -317,6 +322,191 @@
                     </div>
                 </form>
                 <!-- End Floating Labels Form -->
+
+                <div class="card-file mt-3">
+                    <div class="card-header-file">
+                        <h3 class="card-title-file">Daftar Berkas</h3>
+                    </div>
+
+                    <div class="card-body-file">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <table class="table table-stripped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" scope="col type">SK</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 0; ?>
+                                        @if ($revisi_sk->isEmpty())
+                                            <tr>
+                                                <td colspan="2" class="text-center">Belum unggah dokumen</th>
+                                            </tr>
+                                        @else
+                                            @foreach ($revisi_sk as $sk)
+                                                <tr>
+                                                    <td>
+                                                        @if ($i == 0)
+                                                            Awal
+                                                            <?php
+                                                            $i++;
+                                                            ?>
+                                                        @else
+                                                            Revisi #
+                                                            <?php
+                                                            echo $i;
+                                                            $i++;
+                                                            ?>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a class="link-file-revisi"
+                                                            href="{{ asset('berkas/' . $sk->file) }}" target="_new">
+                                                            <i class="bx bx-link-alt"></i>
+                                                            Lihat Dokumen
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table table-stripped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" scope="col type">RKU</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 0; ?>
+                                        @if ($revisi_rku->isEmpty())
+                                            <tr>
+                                                <td colspan="2" class="text-center">Belum unggah dokumen</th>
+                                            </tr>
+                                        @else
+                                            @foreach ($revisi_rku as $rku)
+                                                <tr>
+                                                    <td>
+                                                        @if ($i == 0)
+                                                            Awal
+                                                            <?php
+                                                            $i++;
+                                                            ?>
+                                                        @else
+                                                            Revisi #
+                                                            <?php
+                                                            echo $i;
+                                                            $i++;
+                                                            ?>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a class="link-file-revisi"
+                                                            href="{{ asset('berkas/' . $rku->file) }}" target="_new">
+                                                            <i class="bx bx-link-alt"></i>
+                                                            Lihat Dokumen
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table table-stripped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" scope="col type">RKT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 0; ?>
+                                        @if ($revisi_rkt->isEmpty())
+                                            <tr>
+                                                <td colspan="2" class="text-center">Belum unggah dokumen</th>
+                                            </tr>
+                                        @else
+                                            @foreach ($revisi_rkt as $rkt)
+                                                <tr>
+                                                    <td>
+                                                        @if ($i == 0)
+                                                            Awal
+                                                            <?php
+                                                            $i++;
+                                                            ?>
+                                                        @else
+                                                            Revisi #
+                                                            <?php
+                                                            echo $i;
+                                                            $i++;
+                                                            ?>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a class="link-file-revisi"
+                                                            href="{{ asset('berkas/' . $rkt->file) }}" target="_new">
+                                                            <i class="bx bx-link-alt"></i>
+                                                            Lihat Dokumen
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table table-stripped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" scope="col type">SHP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 0; ?>
+                                        @if ($revisi_shp->isEmpty())
+                                            <tr>
+                                                <td colspan="2" class="text-center">Belum unggah dokumen</th>
+                                            </tr>
+                                        @else
+                                            @foreach ($revisi_shp as $shp)
+                                                <tr>
+                                                    <td>
+                                                        @if ($i == 0)
+                                                            Awal
+                                                            <?php
+                                                            $i++;
+                                                            ?>
+                                                        @else
+                                                            Revisi #
+                                                            <?php
+                                                            echo $i;
+                                                            $i++;
+                                                            ?>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a class="link-file-revisi"
+                                                            href="{{ asset('berkas/' . $shp->file) }}" target="_new">
+                                                            <i class="bx bx-link-alt"></i>
+                                                            Lihat Dokumen
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
