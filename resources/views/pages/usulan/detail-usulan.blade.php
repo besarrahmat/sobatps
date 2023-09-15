@@ -31,6 +31,8 @@
                                                 <i class="bx bx-edit"></i>
                                             </a>
                                         </li>
+                                    @endif
+                                    @if ((Auth::user()->roles->code != 'admin' && $usulan['status'] !== 0) || Auth::user()->roles->code == 'admin')
                                         <li class="list-inline-item">
                                             <form method="POST" action="{{ url('usulan/' . $usulan['id']) }}">
                                                 @csrf
